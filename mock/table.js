@@ -15,10 +15,11 @@ export default [
   {
     url: '/vue-admin-template/table/list',
     type: 'get',
-    response: config => {
+    // eslint_ignore_next_line
+    response: () => {
       const items = data.items
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: items.length,
           items: items

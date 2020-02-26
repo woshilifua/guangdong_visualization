@@ -1,40 +1,42 @@
 <template>
   <div class="app-container">
     <el-row :gutter="32">
-      <el-col :span="10">
+      <el-col :span="24">
+        <Region-Selector :region="region" />
         <Map :region="region" />
       </el-col>
-      <el-col :span="14"> </el-col>
+      <!-- <el-col :span="14"> </el-col> -->
     </el-row>
   </div>
 </template>
 <script>
 import Map from './components/Map'
-
+import RegionSelector from './components/RegionSelector'
 export default {
   components: {
-    Map
+    Map,
+    RegionSelector
   },
+
   data() {
     return {
       region: {
-        name: '湖南省',
+        name: '广东省',
         level: 'city',
-        'ad-code': 440000,
-        center: [113.280637, 23.125178],
-        scope: ['city', 'district'],
-        parents: {
-          nation: {
-            name: '中国',
-            'ad-code': 10000
-          },
-          province: {
-            name: '湖南省',
-            'ad-code': 430000
-          }
-        }
+        adcode: 440000,
+        center: [113.280637, 23.125178]
       }
     }
+  },
+
+  mounted() {
+    this.$eventBus.$on('change-region', obj => {
+      Object.assign(this.region, obj)
+    })
+  },
+
+  beforeDestroy() {
+    this.$eventBus.$off('change-region')
   }
 }
 </script>

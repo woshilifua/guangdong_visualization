@@ -25,7 +25,6 @@
 */
 // TODO 添加返回按钮 Done
 // TODO 添加区域的限制
-import { EventBus } from '@/utils/event-bus'
 import { mapStyles } from '@/config/map'
 import mixins from '../mixins/map'
 
@@ -52,7 +51,7 @@ export default {
   mixins: [mixins],
   computed: {
     adCode() {
-      return this.region['ad-code']
+      return this.region.adcode
     }
   },
   watch: {
@@ -91,8 +90,8 @@ export default {
       this.districtExplorer.on('featureClick', (e, feature) => {
         let props = feature.properties
         if (props.adcode === this.adCode) return
-        EventBus.$emit('change-region', {
-          'ad-code': props.adcode,
+        this.$eventBus.$emit('change-region', {
+          adcode: props.adcode,
           level: props.level
         })
       })
@@ -111,8 +110,8 @@ export default {
         判断 level 的等级，如果不在 userRegion 的 scope 里，并且不等于 userRegion 的 level, 则判定为超出了 userRegion 的范围
       */
       if (acroutes.length > 1) {
-        EventBus.$emit('change-region', {
-          'ad-code': this._.last(acroutes),
+        this.$eventBus.$emit('change-region', {
+          adcode: this._.last(acroutes),
           level: level
         })
       }
@@ -242,5 +241,6 @@ export default {
 }
 .map {
   height: 480px;
+  margin-top: 20px;
 }
 </style>

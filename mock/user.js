@@ -41,7 +41,7 @@ export default [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: token
       }
     }
@@ -49,6 +49,7 @@ export default [
 
   // get user info
   {
+    // eslint-disable-next-line no-useless-escape
     url: '/vue-admin-template/user/info\.*',
     type: 'get',
     response: config => {
@@ -64,7 +65,7 @@ export default [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: info
       }
     }
@@ -74,9 +75,10 @@ export default [
   {
     url: '/vue-admin-template/user/logout',
     type: 'post',
+    // eslint-disable-next-line 
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: 'success'
       }
     }

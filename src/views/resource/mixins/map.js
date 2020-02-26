@@ -19,7 +19,7 @@ export default {
         this.setMapZoom()
       })
       if (this._.has(this, 'districtExplorer')) {
-        this.initDistrictExplorer(this.region['ad-code'])
+        this.initDistrictExplorer(this.region.adcode)
       }
     },
     setMapZoom() {
