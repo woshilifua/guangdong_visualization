@@ -34,6 +34,9 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+import _ from 'lodash'
+
+Vue.prototype._ = _
 
 new Vue({
   el: '#app',
