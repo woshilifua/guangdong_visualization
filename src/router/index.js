@@ -87,6 +87,21 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/task',
+    component: Layout,
+    redirect: '/task/decomposition',
+    name: 'Task',
+    meta: { icon: 'example' },
+    children: [
+      {
+        path: 'decomposition',
+        name: 'Decomposition',
+        component: () => import('@/views/task/decomposition'),
+        meta: { title: '任务分解', icon: 'table' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
