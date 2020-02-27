@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="32">
-      <el-col :span="14">
+      <el-col :span="11">
         <Region-Selector :region="region" />
         <Map :region="region" />
       </el-col>

@@ -2,7 +2,12 @@
   <div class="block">
     <el-row :gutter="10">
       <el-col :span="6">
-        <el-select v-model="province" placeholder="请选择" disabled>
+        <el-select
+          v-model="province"
+          placeholder="请选择"
+          style="width: 100%;"
+          disabled
+        >
         </el-select>
       </el-col>
       <el-col :span="9">
@@ -10,6 +15,7 @@
           v-model="city"
           value-key="adcode"
           placeholder="市"
+          style="width: 100%;"
           @change="handleRegionSelectorChange(city)"
         >
           <el-option
@@ -26,6 +32,7 @@
           v-model="district"
           value-key="adcode"
           placeholder="区"
+          style="width: 100%;"
           @change="handleRegionSelectorChange(district)"
         >
           <el-option

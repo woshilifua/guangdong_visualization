@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: '广东省农商数据',
 
   /**
    * @type {boolean} true | false
