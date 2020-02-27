@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="32">
-      <el-col :span="24">
+      <el-col :span="14">
         <Region-Selector :region="region" />
         <Map :region="region" />
       </el-col>
@@ -21,8 +21,7 @@ export default {
   data() {
     return {
       region: {
-        name: '广东省',
-        level: 'city',
+        level: 'province',
         adcode: 440000,
         center: [113.280637, 23.125178]
       }

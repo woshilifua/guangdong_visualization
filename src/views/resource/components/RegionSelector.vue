@@ -6,7 +6,12 @@
         </el-select>
       </el-col>
       <el-col :span="9">
-        <el-select v-model="city" value-key="adcode" placeholder="市">
+        <el-select
+          v-model="city"
+          value-key="adcode"
+          placeholder="市"
+          @change="handleRegionSelectorChange(city)"
+        >
           <el-option
             v-for="item in cityList"
             :key="item.adcode"
@@ -17,12 +22,17 @@
         </el-select>
       </el-col>
       <el-col :span="9">
-        <el-select v-model="district" placeholder="区">
+        <el-select
+          v-model="district"
+          value-key="adcode"
+          placeholder="区"
+          @change="handleRegionSelectorChange(district)"
+        >
           <el-option
             v-for="item in districtList"
             :key="item.adcode"
             :label="item.name"
-            :value="item.adcode"
+            :value="item"
           >
           </el-option>
         </el-select>
@@ -68,31 +78,7 @@ export default {
      */
     adCode: {
       handler() {
-        this.handleSelector(this.region)
-      },
-      immediate: false
-    },
-
-    city: {
-      handler(val) {
-        if (val === null) return
-        this.district = null
-        this.districtList = val.districts
-        this.$eventBus.$emit('change-region', {
-          adcode: Number(val.adcode)
-        })
-      },
-      immediate: false
-    },
-
-    district: {
-      handler(val) {
-        if (val === null) return
-        this.district = null
-        this.districtList = val.districts
-        this.$eventBus.$emit('change-region', {
-          adcode: Number(val.adcode)
-        })
+        this.handleRegionChange(this.region)
       },
       immediate: false
     }
@@ -111,18 +97,30 @@ export default {
       })
     },
 
+    handleRegionSelectorChange(region) {
+      this.$eventBus.$emit('change-region', {
+        adcode: Number(region.adcode),
+        level: region.level
+      })
+    },
+
     // TODO bug 区域和地图没有对应上
-    handleSelector(region) {
+    handleRegionChange(region) {
       if (region.level === 'province') {
+        // 到省份级别的时候，将市和区都清空
         this.city = null
+        this.district = null
       } else if (region.level === 'city') {
+        // 到市级别的时候将，将区清空，并找到对应的市
         this.district = null
         this.cityList.forEach(item => {
           if (item.adcode === String(region.adcode)) {
+            this.districtList = item.districts
             this.city = item
           }
         })
       } else if (region.level === 'district') {
+        // 到区级别的时候，找到对应的区
         this.districtList.forEach(item => {
           if (item.adcode === String(region.adcode)) {
             this.district = item
