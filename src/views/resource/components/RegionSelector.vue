@@ -2,13 +2,7 @@
   <div class="block">
     <el-row :gutter="10">
       <el-col :span="6">
-        <el-select
-          v-model="province"
-          placeholder="请选择"
-          style="width: 100%;"
-          disabled
-        >
-        </el-select>
+        <el-tag style="width: 100%;">广东省</el-tag>
       </el-col>
       <el-col :span="9">
         <el-select
@@ -16,6 +10,7 @@
           value-key="adcode"
           placeholder="市"
           style="width: 100%;"
+          size="small"
           @change="handleRegionSelectorChange(city)"
         >
           <el-option
@@ -33,6 +28,7 @@
           value-key="adcode"
           placeholder="区"
           style="width: 100%;"
+          size="small"
           @change="handleRegionSelectorChange(district)"
         >
           <el-option
@@ -117,6 +113,7 @@ export default {
         // 到省份级别的时候，将市和区都清空
         this.city = null
         this.district = null
+        this.districtList = []
       } else if (region.level === 'city') {
         // 到市级别的时候将，将区清空，并找到对应的市
         this.district = null

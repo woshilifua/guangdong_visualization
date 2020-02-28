@@ -58,14 +58,14 @@ export const constantRoutes = [
   {
     path: '/resources',
     component: Layout,
-    redirect: '/resources/table',
+    redirect: '/resources/distribution',
     name: 'Resources',
     meta: { icon: 'example' },
     children: [
       {
-        path: 'distributed',
-        name: 'Distributed',
-        component: () => import('@/views/resource/distributed'),
+        path: 'distribution',
+        name: 'Distribution',
+        component: () => import('@/views/resource/distribution'),
         meta: { title: '资源分布', icon: 'table' }
       }
     ]

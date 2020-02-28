@@ -240,7 +240,6 @@ export default {
   position: relative;
 }
 .map {
-  height: 520px;
-  margin-top: 20px;
+  height: 400px;
 }
 </style>
