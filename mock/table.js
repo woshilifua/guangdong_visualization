@@ -1,28 +1,42 @@
-import Mock from 'mockjs'
-
-const data = Mock.mock({
-  'items|30': [{
-    id: '@id',
-    title: '@sentence(10, 20)',
-    'status|1': ['published', 'draft', 'deleted'],
-    author: 'name',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
-  }]
-})
+const checklist = [{
+  date: '2016-05-03',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-02',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-04',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-01',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-08',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-06',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}, {
+  date: '2016-05-07',
+  name: '王小虎',
+  address: '上海市普陀区金沙江路 1518 弄'
+}]
 
 export default [
   {
-    url: '/vue-admin-template/table/list',
+    url: '/checklist',
     type: 'get',
-    // eslint_ignore_next_line
     response: () => {
-      const items = data.items
       return {
         code: 200,
         data: {
-          total: items.length,
-          items: items
+          items: checklist
         }
       }
     }

@@ -1,9 +1,9 @@
 <template>
   <el-row :gutter="10" type="flex" justify="start" align="middle">
-    <el-col :span="6">
+    <el-col :span="5">
       <el-tag style="width: 100%;">广东省</el-tag>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="7">
       <el-select
         v-model="city"
         value-key="adcode"
@@ -21,7 +21,7 @@
         </el-option>
       </el-select>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="7">
       <el-select
         v-model="district"
         value-key="adcode"

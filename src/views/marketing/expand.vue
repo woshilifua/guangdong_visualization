@@ -1,36 +1,34 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <el-row type="flex" align="middel" class="header">
-        <el-col :span="8">
-          <RegionSelector :region="region" style="height: 100%" />
+      <el-row type="flex" justify="center" align="middle">
+        <el-col :span="9">
+          <RegionSelector :region="region" />
         </el-col>
-        <el-col :span="4">
-          <span>32002 家</span>
-          <span>客户总数</span>
-        </el-col>
-        <el-col :span="4">
-          <span>300,000 元</span>
-          <span>收入总数</span>
-        </el-col>
-        <el-col :span="4">
-          <span>12 元</span>
-          <span>平均客户收入</span>
-        </el-col>
-        <el-col :span="4">
-          <span>第二</span>
-          <span>平均客户收入排名</span>
+        <el-col :span="15">
+          <Overview />
         </el-col>
       </el-row>
     </el-card>
+    <el-card shadow="never" class="mt-20">
+      <DataDistribution />
+      <Checklist />
+    </el-card>
   </div>
 </template>
+
 <script>
+import Overview from './components/Overview'
 import RegionSelector from './components/RegionSelector'
+import DataDistribution from './components/DataDistribution'
+import Checklist from './components/Checklist'
 
 export default {
   components: {
-    RegionSelector
+    Overview,
+    RegionSelector,
+    DataDistribution,
+    Checklist
   },
 
   data() {
@@ -41,28 +39,21 @@ export default {
         center: [113.280637, 23.125178]
       }
     }
+  },
+
+  mounted() {
+    this.$eventBus.$on('change-region', obj => {
+      Object.assign(this.region, obj)
+    })
+  },
+
+  beforeDestroy() {
+    this.$eventBus.$off('change-region')
   }
 }
 </script>
-
 <style scoped>
 .app-container {
-  min-height: 100%;
   background-color: #f2f3f8;
-}
-.header span {
-  text-align: left;
-  display: block;
-  line-height: 24px;
-  font-size: 14px;
-}
-.header span:first-of-type {
-  color: #022c54;
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 6px;
-}
-.bl {
-  border-left: 1px solid #022c54;
 }
 </style>

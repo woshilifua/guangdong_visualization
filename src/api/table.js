@@ -1,9 +1,8 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function getChecklist() {
   return request({
-    url: '/vue-admin-template/table/list',
-    method: 'get',
-    params
+    url: '/checklist',
+    method: 'get'
   })
 }

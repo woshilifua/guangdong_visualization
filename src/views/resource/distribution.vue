@@ -2,20 +2,20 @@
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="10">
-        <el-card>
+        <el-card shadow="never">
           <Region-Selector :region="region" />
           <Map :region="region" class="mt-20" />
         </el-card>
       </el-col>
       <el-col :span="14">
-        <el-card>
+        <el-card shadow="never">
           <DataDistribution />
         </el-card>
       </el-col>
     </el-row>
     <el-row class="mt-20">
       <el-col :span="24">
-        <el-card>
+        <el-card shadow="never">
           <DataDistributionOne />
         </el-card>
       </el-col>
@@ -57,3 +57,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.app-container {
+  background-color: #f2f3f8;
+}
+</style>
