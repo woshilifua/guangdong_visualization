@@ -12,7 +12,6 @@
     </el-card>
     <el-card shadow="never" class="mt-20">
       <DataDistribution />
-      <Checklist />
     </el-card>
   </div>
 </template>
@@ -21,14 +20,12 @@
 import Overview from './components/Overview'
 import RegionSelector from '@/components/RegionSelector'
 import DataDistribution from './components/DataDistribution'
-import Checklist from './components/Checklist'
 
 export default {
   components: {
     Overview,
     RegionSelector,
-    DataDistribution,
-    Checklist
+    DataDistribution
   },
 
   data() {
