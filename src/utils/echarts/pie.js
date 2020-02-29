@@ -23,12 +23,6 @@ export default function formatPieEchartsData(data) {
     })
   })
   return {
-    legend: {
-      orient: 'vertical',
-      x: 'left',
-      type: 'scroll',
-      data: legendData,
-    },
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
