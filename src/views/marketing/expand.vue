@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <el-row type="flex" justify="center" align="middle">
-        <el-col :span="9">
+      <el-row type="flex" justify="space-between" align="middle">
+        <el-col :span="6">
           <RegionSelector :region="region" />
         </el-col>
         <el-col :span="15">
@@ -19,7 +19,7 @@
 
 <script>
 import Overview from './components/Overview'
-import RegionSelector from './components/RegionSelector'
+import RegionSelector from '@/components/RegionSelector'
 import DataDistribution from './components/DataDistribution'
 import Checklist from './components/Checklist'
 

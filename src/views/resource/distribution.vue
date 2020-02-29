@@ -24,7 +24,7 @@
 </template>
 <script>
 import Map from './components/Map'
-import RegionSelector from './components/RegionSelector'
+import RegionSelector from '@/components/RegionSelector'
 import DataDistribution from './components/DataDistribution'
 import DataDistributionOne from './components/DataDistributionOne'
 
