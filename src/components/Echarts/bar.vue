@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <div :ref="'echarts'" style=" height: 220px;"></div>
+  <div
+    element-loading-spinner="null"
+    element-loading-text="暂无该分类数据"
+    v-loading="echartsLoading"
+  >
+    <div :ref="'echarts'" style=" height: 240px;"></div>
   </div>
 </template>
 
@@ -8,23 +12,49 @@
 import mixins from './mixins/'
 import initOption from '@/utils/echarts/bar'
 
-var dataAxis = ['写字楼', '园区', '聚类', '市场']
-var data = [220, 182, 191, 234]
-
 export default {
   mixins: [mixins],
 
+  data() {
+    return {
+      echartsLoading: true
+    }
+  },
+
   props: {
-    data: {
+    echartsData: {
+      type: Object,
+      required: true
+    },
+    region: {
       type: Object,
       required: false
     }
   },
 
+  watch: {
+    echartsData: {
+      handler(val) {
+        this.echartsLoading = val.data.length === 0 ? true : false
+        this.setOption()
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.initEcharts('echarts')
-    let option = initOption(dataAxis, data)
-    this.setOption(option)
+  },
+
+  methods: {
+    setOption() {
+      let option = initOption(
+        this.echartsData.dataAxis,
+        this.echartsData.data,
+        this.region
+      )
+      this.echarts.setOption(option)
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="charts-container">
     <el-row>
       <el-col>
-        <BarEcharts />
+        <BarEcharts :echartsData="echartsData" />
       </el-col>
     </el-row>
   </div>
@@ -13,7 +13,12 @@ import BarEcharts from '@/components/Echarts/bar'
 
 export default {
   data() {
-    return {}
+    return {
+      echartsData: {
+        data: [],
+        dataTypes: []
+      }
+    }
   },
 
   components: {

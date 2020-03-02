@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="10" type="flex" justify="start" align="middle">
     <el-col :span="6">
-      <el-tag style="width: 100%;">广东省</el-tag>
+      <el-tag style="width: 100%;" @click="backToProvince()">广东省</el-tag>
     </el-col>
     <el-col :span="9">
       <el-select
@@ -105,6 +105,12 @@ export default {
       })
     },
 
+    backToProvince() {
+      this.$eventBus.$emit('change-region', {
+        adcode: 440000,
+        level: 'province'
+      })
+    },
     // TODO bug 区域和地图没有对应上
     handleRegionChange(region) {
       if (region.level === 'province') {

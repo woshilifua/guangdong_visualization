@@ -9,7 +9,7 @@
       </el-col>
       <el-col :span="14">
         <el-card shadow="never">
-          <DataDistribution />
+          <DataDistribution :region="region" />
         </el-card>
       </el-col>
     </el-row>
@@ -27,6 +27,7 @@ import Map from './components/Map'
 import RegionSelector from '@/components/RegionSelector'
 import DataDistribution from './components/DataDistribution'
 import DataDistributionOne from './components/DataDistributionOne'
+import adCode from '@/utils/adcode'
 
 export default {
   components: {
@@ -41,6 +42,7 @@ export default {
       region: {
         level: 'province',
         adcode: 440000,
+        name: '广东省',
         center: [113.280637, 23.125178]
       }
     }
@@ -48,6 +50,9 @@ export default {
 
   mounted() {
     this.$eventBus.$on('change-region', obj => {
+      if (adCode[obj.adcode]) {
+        obj.name = adCode[obj.adcode]
+      }
       Object.assign(this.region, obj)
     })
   },
