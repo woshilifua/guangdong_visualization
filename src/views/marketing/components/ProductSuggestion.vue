@@ -1,6 +1,5 @@
 <template>
   <div>
-    <span>产品需求建议</span>
     <el-table
       :data="tableData"
       border

@@ -1,6 +1,6 @@
 <template>
   <div class="pie-container">
-    <div :ref="'echarts'" style=" height: 200px;"></div>
+    <div :ref="'echarts'" style=" height: 180px;"></div>
   </div>
 </template>
 
