@@ -1,6 +1,11 @@
 <template>
-  <div class="pie-container">
-    <div :ref="'echarts'" style=" height: 180px;"></div>
+  <div
+    style="height:100%; background-color: #fafbfc;"
+    element-loading-spinner="null"
+    element-loading-text="暂无该分类数据"
+    v-loading="dataLoading"
+  >
+    <div :ref="'echarts'" style="height:100%;"></div>
   </div>
 </template>
 
@@ -8,23 +13,6 @@
 import mixins from './mixins/'
 import initOption from '@/utils/echarts/pie'
 
-const data = {
-  name: '楼宇细分属性构成',
-  items: [
-    {
-      name: 'A类',
-      value: 1525
-    },
-    {
-      name: 'B类',
-      value: 444
-    },
-    {
-      name: 'C类',
-      value: 127
-    }
-  ]
-}
 export default {
   mixins: [mixins],
 
@@ -35,12 +23,31 @@ export default {
     }
   },
 
+  data() {
+    return {
+      dataLoading: true
+    }
+  },
+
+  watch: {
+    data: {
+      handler(val) {
+        this.dataLoading = val.items.length === 0 ? true : false
+        this.setOption(val)
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.initEcharts('echarts')
-    let option = initOption(data)
-    this.setOption(option)
+  },
+
+  methods: {
+    setOption(data) {
+      let option = initOption(data)
+      this.echarts.setOption(option)
+    }
   }
 }
 </script>
-
-<style></style>

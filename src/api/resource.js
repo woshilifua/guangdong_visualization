@@ -1,7 +1,7 @@
 import { provinceData, cityData, dataAxis, districtData } from '@/data/resource/guangdong'
 
 export function getData(adcode) {
-  const res = {
+  let res = {
     dataAxis: dataAxis
   }
   let regex = /^440.*/
@@ -12,31 +12,37 @@ export function getData(adcode) {
   } else if (adcode === 440000) {
     res.data = provinceData
   } else {
-    res.data = getDistrictData(adcode)
+    res = Object.assign({}, res, getDistrictData(adcode))
   }
   return Promise.resolve(res)
 }
 
 const getDistrictData = (adcode) => {
-  const data = districtData[adcode]
-  if (!data) return []
-  let result = [0, 0, 0, 0]
-  data.forEach(item => {
-    switch (item[1]) {
-      case '写字楼':
-        result[0] += Number(item[3])
-        break
-      case '园区':
-        result[1] += Number(item[3])
-        break
-      case '专业市场':
-        result[2] += Number(item[3])
-        break
-      case '高端聚类':
-        result[3] += Number(item[3])
-        break
-      default:
-    }
+  const districts = districtData[adcode]
+  if (!districts) return []
+
+  const keys = {
+    '写字楼': 0,
+    '园区': 1,
+    '专业市场': 2,
+    '高端聚类': 3
+  }
+  // 柱状数据
+  let data = [0, 0, 0, 0]
+
+  // 饼状数据
+  let structure = [
+    { name: '写字楼', items: [] },
+    { name: '园区', items: [] },
+    { name: '专业市场', items: [] },
+    { name: '高端聚类', items: [] }
+  ]
+  districts.forEach(item => {
+    data[keys[item[1]]] += Number(item[3])
+    structure[keys[item[1]]].items.push({
+      name: item[2],
+      value: item[3]
+    })
   })
-  return result
+  return { data, structure }
 }

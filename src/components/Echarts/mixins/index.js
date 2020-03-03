@@ -11,16 +11,17 @@ export default {
   },
 
   methods: {
-    setOption(option) {
-      this.echarts.setOption(option)
-    },
-
     initEcharts(key) {
       // eslint-disable-next-line
       this.echarts = echarts.init(this.$refs[key], 'customed')
       this.echarts.on('rendered', () => {
         this.loading = false
+        this.setEchartsEvent()
       })
+    },
+
+    setEchartsEvent() {
+
     }
   }
 }

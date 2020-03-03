@@ -2,7 +2,7 @@
   <div class="charts-container">
     <el-row>
       <el-col>
-        <BarEcharts :echartsData="echartsData" />
+        <BarEcharts :data="echartsData" />
       </el-col>
     </el-row>
   </div>

@@ -1,7 +1,7 @@
 export default function initOption(dataAxis, data, region) {
   let option = {
     title: {
-      text: `${region.name} 楼宇分布情况`
+      text: `${region.name}楼宇分布情况`
       // subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
     },
     xAxis: {

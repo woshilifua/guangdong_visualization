@@ -23,6 +23,10 @@ export default function formatPieEchartsData(data) {
     })
   })
   return {
+    title: {
+      text: `${data.name}分布`,
+      left: 'left'
+    },
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -34,8 +38,8 @@ export default function formatPieEchartsData(data) {
         },
         name: '分布情况',
         type: 'pie',
-        radius: ['0', '90%'],
-        center: ['40%', '50%'],
+        radius: ['30%', '70%'],
+        center: ['50%', '60%'],
         data: seriesData,
         itemStyle: {
           emphasis: {
