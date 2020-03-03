@@ -2,7 +2,7 @@
   <div>
     <el-row type="flex" justify="center">
       <el-col :span="21" style="text-align: right">
-        <el-tag>数据更新时间: 2020 年 2 月 2 日</el-tag>
+        <el-tag>数据更新时间: 2020-02-02</el-tag>
         <el-button
           class="ml-8"
           type="primary"
