@@ -1,10 +1,12 @@
 <template>
-  <div
-    element-loading-spinner="null"
-    element-loading-text="暂无该分类数据"
-    v-loading="echartsLoading"
-  >
-    <div :ref="'echarts'" style=" height: 240px;"></div>
+  <div>
+    <div
+      :ref="'echarts'"
+      style=" height: 240px;"
+      element-loading-spinner="null"
+      element-loading-text="暂无该分类数据"
+      v-loading="dataLoading"
+    ></div>
   </div>
 </template>
 
@@ -17,12 +19,12 @@ export default {
 
   data() {
     return {
-      echartsLoading: true
+      dataLoading: true
     }
   },
 
   props: {
-    echartsData: {
+    data: {
       type: Object,
       required: true
     },
@@ -33,10 +35,10 @@ export default {
   },
 
   watch: {
-    echartsData: {
+    data: {
       handler(val) {
-        this.echartsLoading = val.data.length === 0 ? true : false
-        this.setOption()
+        this.dataLoading = val.data.length === 0 ? true : false
+        this.setOption(val, this.region)
       },
       deep: true
     }
@@ -47,13 +49,15 @@ export default {
   },
 
   methods: {
-    setOption() {
-      let option = initOption(
-        this.echartsData.dataAxis,
-        this.echartsData.data,
-        this.region
-      )
+    setOption(val, region) {
+      let option = initOption(val.dataAxis, val.data, region)
       this.echarts.setOption(option)
+    },
+
+    setEchartsEvent() {
+      this.echarts.on('mouseover', 'series', params => {
+        this.$eventBus.$emit('active-bar', params.dataIndex)
+      })
     }
   }
 }
