@@ -1,11 +1,11 @@
-export default function initOption(dataAxis, data, region) {
+export default function initOption(data) {
   let option = {
     title: {
-      text: `${region.name}楼宇分布情况`
+      text: data.title
       // subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
     },
     xAxis: {
-      data: dataAxis
+      data: data.dataAxis
     },
     yAxis: {
       nameLocation: 'end',
@@ -30,7 +30,7 @@ export default function initOption(dataAxis, data, region) {
           }
         },
         barWidth: 24,
-        data: data
+        data: data.data
       }
     ]
   }

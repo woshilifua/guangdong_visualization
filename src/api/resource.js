@@ -2,7 +2,9 @@ import { provinceData, cityData, dataAxis, districtData } from '@/data/resource/
 
 export function getData(adcode) {
   let res = {
-    dataAxis: dataAxis
+    dataAxis: dataAxis,
+    data: [],
+    structure: []
   }
   let regex = /^440.*/
   if (!String(adcode).match(regex)) {
@@ -12,14 +14,18 @@ export function getData(adcode) {
   } else if (adcode === 440000) {
     res.data = provinceData
   } else {
-    res = Object.assign({}, res, getDistrictData(adcode))
+    let result = getDistrictData(adcode)
+    if (result) {
+      res = Object.assign({}, res, result)
+    }
   }
   return Promise.resolve(res)
 }
 
 const getDistrictData = (adcode) => {
+
   const districts = districtData[adcode]
-  if (!districts) return []
+  if (!districts) return
 
   const keys = {
     '写字楼': 0,
@@ -27,7 +33,7 @@ const getDistrictData = (adcode) => {
     '专业市场': 2,
     '高端聚类': 3
   }
-  // 柱状数据
+  // 柱状的数据
   let data = [0, 0, 0, 0]
 
   // 饼状数据

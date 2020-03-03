@@ -5,11 +5,13 @@
         <BarEcharts :data="barData" :region="region" />
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" :gutter="20">
-      <el-col :span="12" style="height: 220px; padding-top: 10px;">
+    <el-row type="flex" justify="center">
+      <el-col :span="12" style="height: 220px;">
         <PieEcharts :data="pieData" />
       </el-col>
-      <el-col :span="12">12</el-col>
+      <el-col :span="12" style="height: 220px;">
+        <PieEcharts :data="pieData" />
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -30,6 +32,7 @@ export default {
   data() {
     return {
       barData: {
+        title: '',
         data: [0, 0, 0, 0],
         dataAxis: ['楼宇', '园区', '专业市场', '高端聚类']
       },
@@ -67,6 +70,7 @@ export default {
     this.getData(this.region.adcode)
     // 监听 bar 的变化
     this.$eventBus.$on('active-bar', index => {
+      if (!this.pieDataList.length) return
       this.pieData = this.pieDataList[index]
     })
   },
@@ -75,13 +79,22 @@ export default {
     getData(adcode) {
       getData(adcode).then(res => {
         // 柱状图显示的数据
-        this.barData = res
-        if (res.structure) {
-          this.pieDataList = res.structure
-          // 饼状图显示的数据, 默认第一个为初始化的数据
-          this.pieData = this.pieDataList[0]
-        }
+        this.barData = Object.assign({}, this.barData, res)
+        this.barData.title = this.setBarChartsTitle(res.data)
+
+        // 饼状图显示的数据, 默认第一个为初始化的数据
+        this.pieDataList = res.structure
+        this.pieData = this.pieDataList[0]
       })
+    },
+
+    setBarChartsTitle(data) {
+      if (!data.length) return
+      let result = 0
+      data.forEach(item => {
+        result += Number(item)
+      })
+      return `${this.region.name}楼宇数量: ${result}（栋）`
     }
   },
 

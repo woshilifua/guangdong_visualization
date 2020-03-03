@@ -37,8 +37,13 @@ export default {
   watch: {
     data: {
       handler(val) {
-        this.dataLoading = val.data.length === 0 ? true : false
-        this.setOption(val, this.region)
+        // 判断数据为空的情况
+        if (!val.data.length) {
+          this.dataLoading = true
+          return
+        }
+        this.dataLoading = false
+        this.setOption(val)
       },
       deep: true
     }
@@ -49,8 +54,8 @@ export default {
   },
 
   methods: {
-    setOption(val, region) {
-      let option = initOption(val.dataAxis, val.data, region)
+    setOption(data) {
+      let option = initOption(data)
       this.echarts.setOption(option)
     },
 

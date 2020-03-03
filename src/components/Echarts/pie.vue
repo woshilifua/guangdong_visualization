@@ -1,6 +1,6 @@
 <template>
   <div
-    style="height:100%; background-color: #fafbfc;"
+    style="height:100%; background-color: #fafbfc; padding: 20px;"
     element-loading-spinner="null"
     element-loading-text="暂无该分类数据"
     v-loading="dataLoading"
@@ -32,7 +32,11 @@ export default {
   watch: {
     data: {
       handler(val) {
-        this.dataLoading = val.items.length === 0 ? true : false
+        if (!val || val.items === undefined) {
+          this.dataLoading = true
+          return
+        }
+        this.dataLoading = false
         this.setOption(val)
       },
       deep: true
