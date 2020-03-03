@@ -14,7 +14,7 @@
       >
         <el-option
           v-for="item in cityList"
-          :key="item.adcode"
+          :key="`${item.adcode}-${item.name}`"
           :label="item.name"
           :value="item"
         >
@@ -32,7 +32,7 @@
       >
         <el-option
           v-for="item in districtList"
-          :key="item.adcode"
+          :key="`${item.adcode}-${item.name}`"
           :label="item.name"
           :value="item"
         >
