@@ -1,6 +1,16 @@
 <template>
   <div style="min-height: 450px;">
     <el-row>
+      <el-col>
+        <el-button
+          class="ml-8 fr"
+          type="primary"
+          size="small"
+          icon="el-icon-refresh-left"
+          >更新数据</el-button
+        >
+        <el-tag class="fr">数据更新时间: 2020.02.02</el-tag>
+      </el-col>
       <el-col style="height: 240px;">
         <BarEcharts :data="barData" :region="region" />
       </el-col>

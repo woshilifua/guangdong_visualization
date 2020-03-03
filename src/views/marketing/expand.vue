@@ -11,7 +11,7 @@
       </el-row>
     </el-card>
     <el-card shadow="never" class="mt-20">
-      <DataDistribution />
+      <DataDistribution :region="region" />
     </el-card>
   </div>
 </template>
@@ -33,6 +33,7 @@ export default {
       region: {
         level: 'province',
         adcode: 440000,
+        name: '广东省',
         center: [113.280637, 23.125178]
       }
     }

@@ -1,8 +1,8 @@
 const echartsThemeColors = [
+  '#8776e6',
   '#fdbf36',
   '#67c4e5',
   '#7ae6b2',
-  '#8776e6',
   '#ec6a52',
   '#e7c45b',
   '#4b8afa'
@@ -39,7 +39,7 @@ export default function formatPieEchartsData(data) {
         name: '分布情况',
         type: 'pie',
         radius: ['30%', '70%'],
-        center: ['50%', '60%'],
+        center: ['50%', '55%'],
         data: seriesData,
         itemStyle: {
           emphasis: {
