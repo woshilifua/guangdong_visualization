@@ -16,12 +16,10 @@
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
-      <el-col :span="12" style="height: 220px;">
+      <el-col :span="16" style="height: 220px;">
         <PieEcharts :data="pieData" />
       </el-col>
-      <el-col :span="12" style="height: 220px;">
-        <PieEcharts :data="pieData" />
-      </el-col>
+      <el-col :span="12" style="height: 220px;"> </el-col>
     </el-row>
   </div>
 </template>
@@ -43,14 +41,11 @@ export default {
     return {
       barData: {
         title: '',
-        data: [0, 0, 0, 0],
-        dataAxis: ['楼宇', '园区', '专业市场', '高端聚类']
+        data: null
       },
       pieData: {
-        data: {
-          name: '',
-          items: []
-        }
+        title: '',
+        data: null
       },
       pieDataList: []
     }
@@ -61,50 +56,53 @@ export default {
     PieEcharts
   },
 
-  computed: {
-    adCode() {
-      return this.region.adcode
-    }
-  },
-
   watch: {
-    adCode: {
-      handler(val) {
-        this.getData(val)
+    region: {
+      handler(region) {
+        this.getData(region, this.$route.name)
       },
+      deep: true,
       immediate: false
     }
   },
 
   mounted() {
-    this.getData(this.region.adcode)
+    this.getData(this.region, this.$route.name)
     // 监听 bar 的变化
-    this.$eventBus.$on('active-bar', index => {
-      if (!this.pieDataList.length) return
-      this.pieData = this.pieDataList[index]
+    this.$eventBus.$on('active-bar', key => {
+      this.pieData.title = key
+      this.pieData.data = this.barData.data[key]
+        ? this.barData.data[key].structure
+        : null
     })
   },
 
   methods: {
-    getData(adcode) {
-      getData(adcode).then(res => {
+    getData(region, scene) {
+      getData(region, scene).then(res => {
         // 柱状图显示的数据
-        this.barData = Object.assign({}, this.barData, res)
-        this.barData.title = this.setBarChartsTitle(res.data)
+        /*
+         * res = {
+         *  title: '广东省楼宇总数 7321',
+         *  data: {
+         *    写字楼: {
+         *       total: 123,
+         *       structure: {}
+         *    },
+         *    高端聚类: {
+         *    }
+         *  }
+         */
+        Object.assign(this.barData, res)
 
         // 饼状图显示的数据, 默认第一个为初始化的数据
-        this.pieDataList = res.structure
-        this.pieData = this.pieDataList[0]
+        if (res.data === null) {
+          this.pieData.data = null
+        } else {
+          this.pieData.title = Object.keys(res.data)[0]
+          this.pieData.data = res.data[Object.keys(res.data)[0]].structure
+        }
       })
-    },
-
-    setBarChartsTitle(data) {
-      if (!data.length) return
-      let result = 0
-      data.forEach(item => {
-        result += Number(item)
-      })
-      return `${this.region.name}楼宇数量: ${result}（栋）`
     }
   },
 

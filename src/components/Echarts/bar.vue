@@ -36,14 +36,14 @@ export default {
 
   watch: {
     data: {
-      handler(val) {
+      handler(obj) {
         // 判断数据为空的情况
-        if (!val.data.length) {
+        if (obj.data === null) {
           this.dataLoading = true
           return
         }
         this.dataLoading = false
-        this.setOption(val)
+        this.setOption(obj)
       },
       deep: true
     }
@@ -61,7 +61,7 @@ export default {
 
     setEchartsEvent() {
       this.echarts.on('mouseover', 'series', params => {
-        this.$eventBus.$emit('active-bar', params.dataIndex)
+        this.$eventBus.$emit('active-bar', params.name)
       })
     }
   }

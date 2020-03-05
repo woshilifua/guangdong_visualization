@@ -1,11 +1,17 @@
-export default function initOption(data) {
+export default function initOption(obj) {
+  let values = []
+  let dataAxis = []
+  Object.keys(obj.data).forEach(key => {
+    dataAxis.push(key)
+    values.push(obj.data[key].total)
+  })
   let option = {
     title: {
-      text: data.title
+      text: obj.title
       // subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
     },
     xAxis: {
-      data: data.dataAxis
+      data: dataAxis
     },
     yAxis: {
       nameLocation: 'end',
@@ -30,7 +36,7 @@ export default function initOption(data) {
           }
         },
         barWidth: 24,
-        data: data.data
+        data: values
       }
     ]
   }

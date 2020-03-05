@@ -31,13 +31,13 @@ export default {
 
   watch: {
     data: {
-      handler(val) {
-        if (!val || val.items === undefined) {
+      handler(obj) {
+        if (obj.data === null) {
           this.dataLoading = true
           return
         }
         this.dataLoading = false
-        this.setOption(val)
+        this.setOption(obj)
       },
       deep: true
     }
@@ -48,8 +48,8 @@ export default {
   },
 
   methods: {
-    setOption(data) {
-      let option = initOption(data)
+    setOption(obj) {
+      let option = initOption(obj)
       this.echarts.setOption(option)
     }
   }

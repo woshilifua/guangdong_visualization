@@ -55,18 +55,35 @@ export const constantRoutes = [
     }]
   },
 
+
   {
     path: '/resources',
     component: Layout,
-    redirect: '/resources/distribution',
+    redirect: '/resources/company',
     name: 'Resources',
-    meta: { icon: 'example' },
+    meta: { title: '资源分布', icon: 'example' },
     children: [
       {
-        path: 'distribution',
-        name: 'Distribution',
+        path: '/resources/company',
+        name: 'Company',
         component: () => import('@/views/resource/distribution'),
-        meta: { title: '资源分布', icon: 'table' }
+        meta: {
+          title: '企业分布', icon: 'table'
+        }
+      },
+      {
+        path: '/resources/format',
+        name: 'Format',
+        component: () => import('@/views/resource/distribution'),
+        meta: {
+          title: '业态分布', icon: 'table'
+        }
+      },
+      {
+        path: '/resources/building',
+        name: 'Building',
+        component: () => import('@/views/resource/distribution'),
+        meta: { title: '楼宇分布', icon: 'table' }
       }
     ]
   },
