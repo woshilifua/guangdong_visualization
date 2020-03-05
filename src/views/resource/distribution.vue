@@ -16,7 +16,7 @@
     <el-row class="mt-20">
       <el-col :span="24">
         <el-card shadow="never">
-          <DataDistributionOne />
+          <DataDistributionOne :region="region" />
         </el-card>
       </el-col>
     </el-row>

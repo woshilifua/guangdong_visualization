@@ -80,8 +80,7 @@ export default {
   methods: {
     getData(region, scene) {
       getData(region, scene).then(res => {
-        // 柱状图显示的数据
-        /*
+        /* 柱状图显示的数据
          * res = {
          *  title: '广东省楼宇总数 7321',
          *  data: {

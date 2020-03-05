@@ -2,10 +2,11 @@
   <div>
     <div
       :ref="'echarts'"
-      style=" height: 240px;"
+      style="height: 240px;"
       element-loading-spinner="null"
       element-loading-text="暂无该分类数据"
       v-loading="dataLoading"
+      :style="barStyle"
     ></div>
   </div>
 </template>
@@ -24,6 +25,10 @@ export default {
   },
 
   props: {
+    barStyle: {
+      type: Object,
+      required: false
+    },
     data: {
       type: Object,
       required: true

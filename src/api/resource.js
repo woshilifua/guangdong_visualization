@@ -1,4 +1,62 @@
-import { allData } from '@/data/resource/guangdong'
+import { allData, provinceRegionData } from '@/data/resource/guangdong'
+
+export function getRegionData(region, scene) {
+  let res = {
+    title: '',
+    data: null
+  }
+  const adcode = String(region.adcode)
+  if (adcode === '440000') {
+    Object.assign(res, getProvinceRegionData(region, scene))
+  } else if (adcode === '440100') {
+    Object.assign(res, getCityRegionData(region, scene))
+  }
+  return Promise.resolve(res)
+}
+
+const getProvinceRegionData = (region, scene) => {
+  let data = {}
+  let count = 0
+  let SCENEKEYS = {
+    Company: {
+      key: 1,
+      title: '企业总量'
+    },
+    Building: {
+      key: 2,
+      title: '楼宇总量'
+    }
+  }
+  provinceRegionData.forEach(item => {
+    let amount = Number(item[SCENEKEYS[scene].key])
+    count += amount
+    data[item[0]] = {
+      total: amount
+    }
+  })
+  let title = `${region.name}${SCENEKEYS[scene].title}: ${count}`
+  return { title, data }
+}
+
+const getCityRegionData = (region, scene) => {
+  let data = {}
+  let count = 0
+  Object.keys(allData).forEach(key => {
+    allData[key].forEach(item => {
+      let amount = Number(item[SCENEKEYS[scene].key])
+      count += amount
+      if (!data[item[0]]) {
+        data[item[0]] = {
+          total: Number(item[SCENEKEYS[scene].key])
+        }
+      } else {
+        data[item[0]].total += Number(item[SCENEKEYS[scene].key])
+      }
+    })
+  })
+  let title = getDataTitle(scene, region, count)
+  return { title, data }
+}
 
 export function getData(region, scene) {
   let res = {
