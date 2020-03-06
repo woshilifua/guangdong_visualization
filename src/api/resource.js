@@ -142,29 +142,57 @@ const getDataTitle = (scene, region, count) => {
   return `${region.name}${SCENEKEYS[scene].title}: ${count}`
 }
 
-const getProvinceData = (region, scene) => {
-  return {
-    title: getDataTitle(scene, region, 40854),
-    data: {
-      写字楼: {
-        total: 11686,
-        structure: {}
-      },
-      园区: {
-        total: 11060,
-        structure: {}
-      },
-      专业市场: {
-        total: 12906,
-        structure: {}
-      },
-      高端聚类: {
-        total: 5202,
-        structure: {}
-      }
+const provinceData = [
+  ['写字楼', '11686', '951355'],
+  ['园区', '11060', '542518'],
+  ['高端聚类', '5202', '328075'],
+  ['专业市场', '12906', '556332']
+]
+
+const provinceSubdivisionData = [
+  ['写字楼', 'A', '1350', '222317'],
+  ['写字楼', 'B', '3513', '345290'],
+  ['写字楼', 'C', '6823', '383748'],
+  ['园区', '产业园区', '2440', '165555'],
+  ['园区', '工业园区', '7828', '325676'],
+  ['园区', '化工园区', '16', '2738'],
+  ['园区', '双创园区', '569', '35593'],
+  ['园区', '物流园区', '207', '12956'],
+  ['高端聚类', '商业街区', '1898', '51349'],
+  ['高端聚类', '商业综合体', '3304', '276726'],
+  ['专业市场', '农贸市场', '2045', '44969'],
+  ['专业市场', '批发市场', '9944', '447715'],
+  ['专业市场', '综合市场', '917', '63648'],
+]
+
+const getProvinceStructure = (key, scene) => {
+  console.log(scene)
+  let data = {}
+  provinceSubdivisionData.forEach(item => {
+    if (item[0] === key) {
+      data[item[1]] = scene === 'Building' ? item[2] : item[3]
     }
+  })
+  return data
+}
+const formatProvinceData = (scene) => {
+  let data = {}
+  provinceData.forEach(item => {
+    data[item[0]] = {
+      total: scene === 'Building' ? item[1] : item[2],
+      structure: getProvinceStructure(item[0], scene)
+    }
+  })
+  return data
+}
+const getProvinceData = (region, scene) => {
+  let count = scene === 'Building' ? 40854 : 2378280
+  return {
+    title: getDataTitle(scene, region, count),
+    data: formatProvinceData(scene)
   }
 }
+
 
 // 企业，楼宇按行业分布数据
 const getCityData = (region, scene) => {
