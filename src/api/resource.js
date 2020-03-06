@@ -1,10 +1,14 @@
-import { allData, provinceRegionData } from '@/data/resource/guangdong'
+import { allData, provinceRegionData, formatData } from '@/data/resource/guangdong'
 
+// 地市分布数据
 export function getRegionData(region, scene) {
   let res = {
     title: '',
     data: null
   }
+
+  if (scene === 'Format') return Promise.resolve(res)
+
   const adcode = String(region.adcode)
   if (adcode === '440000') {
     Object.assign(res, getProvinceRegionData(region, scene))
@@ -63,6 +67,8 @@ export function getData(region, scene) {
     data: null,
     title: ''
   }
+  if (scene === 'Format') return getFormatData(region, scene)
+
   let regex = /^440.*/
   // 非广东省的数据
   const adcode = String(region.adcode)
@@ -78,6 +84,46 @@ export function getData(region, scene) {
   return Promise.resolve(res)
 }
 
+// 按照业态分布
+const getFormatData = (region, scene) => {
+  let res = {
+    title: '',
+    data: null
+  }
+
+  const adcode = String(region.adcode)
+  if (adcode === '440100') {
+    Object.assign(res, getCityFormatData(region, scene))
+  }
+
+  return Promise.resolve(res)
+}
+
+const getCityFormatData = (region, scene) => {
+  let data = {}
+  let count = 0
+  formatData.forEach(item => {
+    let amount = Number(item[4])
+    count += amount
+    if (!data[item[2]]) {
+      data[item[2]] = {
+        total: Number(item[4]),
+        structure: {}
+      }
+      data[item[2]].structure[item[3]] = amount
+    } else {
+      data[item[2]].total += Number(item[4])
+      if (!data[item[2]].structure[item[3]]) {
+        data[item[2]].structure[item[3]] = amount
+      } else {
+        data[item[2]].structure[item[3]] += amount
+      }
+    }
+  })
+  let title = getDataTitle(scene, region, count)
+  return { data, title }
+}
+
 const SCENEKEYS = {
   Building: {
     key: 3,
@@ -86,6 +132,9 @@ const SCENEKEYS = {
   Company: {
     key: 4,
     title: '企业总量'
+  },
+  Format: {
+    title: '客户总量'
   }
 }
 
@@ -117,6 +166,7 @@ const getProvinceData = (region, scene) => {
   }
 }
 
+// 企业，楼宇按行业分布数据
 const getCityData = (region, scene) => {
   let data = {}
   let count = 0
