@@ -7,12 +7,12 @@ export function getRegionData(region, scene) {
     data: null
   }
 
-  if (scene === 'Format') return Promise.resolve(res)
 
   const adcode = String(region.adcode)
   if (adcode === '440000') {
     Object.assign(res, getProvinceRegionData(region, scene))
   } else if (adcode === '440100') {
+    if (scene === 'Format') return Promise.resolve(res)
     Object.assign(res, getCityRegionData(region, scene))
   }
   return Promise.resolve(res)
@@ -29,6 +29,10 @@ const getProvinceRegionData = (region, scene) => {
     Building: {
       key: 2,
       title: '楼宇总量'
+    },
+    Format: {
+      key: 2,
+      title: '客户总量'
     }
   }
   provinceRegionData.forEach(item => {
