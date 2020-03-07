@@ -1,4 +1,4 @@
-import { allData, provinceRegionData, formatData } from '@/data/resource/guangdong'
+import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData } from '@/data/resource/guangdong'
 
 // 地市分布数据
 export function getRegionData(region, scene) {
@@ -92,17 +92,44 @@ const getFormatData = (region, scene) => {
   }
 
   const adcode = String(region.adcode)
-  if (adcode === '440100') {
+  if (adcode === '440000') {
+    Object.assign(res, getProvinceFormatData(region, scene))
+  } else if (adcode === '440100') {
     Object.assign(res, getCityFormatData(region, scene))
   }
 
   return Promise.resolve(res)
 }
 
+const getProvinceFormatData = (region, scene) => {
+  let data = {}
+  let count = 0
+  provinceFormatData.forEach(item => {
+    let amount = Number(item[2])
+    count += amount
+    if (!data[item[0]]) {
+      data[item[0]] = {
+        total: Number(item[2]),
+        structure: {}
+      }
+      data[item[0]].structure[item[1]] = amount
+    } else {
+      data[item[0]].total += Number(item[2])
+      if (!data[item[0]].structure[item[1]]) {
+        data[item[0]].structure[item[1]] = amount
+      } else {
+        data[item[0]].structure[item[1]] += amount
+      }
+    }
+  })
+  let title = getDataTitle(scene, region, count)
+  return { data, title }
+}
+
 const getCityFormatData = (region, scene) => {
   let data = {}
   let count = 0
-  formatData.forEach(item => {
+  cityFormatData.forEach(item => {
     let amount = Number(item[4])
     count += amount
     if (!data[item[2]]) {
@@ -142,31 +169,8 @@ const getDataTitle = (scene, region, count) => {
   return `${region.name}${SCENEKEYS[scene].title}: ${count}`
 }
 
-const provinceData = [
-  ['写字楼', '11686', '951355'],
-  ['园区', '11060', '542518'],
-  ['高端聚类', '5202', '328075'],
-  ['专业市场', '12906', '556332']
-]
-
-const provinceSubdivisionData = [
-  ['写字楼', 'A', '1350', '222317'],
-  ['写字楼', 'B', '3513', '345290'],
-  ['写字楼', 'C', '6823', '383748'],
-  ['园区', '产业园区', '2440', '165555'],
-  ['园区', '工业园区', '7828', '325676'],
-  ['园区', '化工园区', '16', '2738'],
-  ['园区', '双创园区', '569', '35593'],
-  ['园区', '物流园区', '207', '12956'],
-  ['高端聚类', '商业街区', '1898', '51349'],
-  ['高端聚类', '商业综合体', '3304', '276726'],
-  ['专业市场', '农贸市场', '2045', '44969'],
-  ['专业市场', '批发市场', '9944', '447715'],
-  ['专业市场', '综合市场', '917', '63648'],
-]
 
 const getProvinceStructure = (key, scene) => {
-  console.log(scene)
   let data = {}
   provinceSubdivisionData.forEach(item => {
     if (item[0] === key) {
