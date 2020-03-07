@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-card shadow="never">
-      <el-row type="flex" justify="space-between" align="middle">
-        <el-col :span="6">
-          <RegionSelector :region="region" />
+      <el-row type="flex" justify="center" align="middle">
+        <el-col :span="7">
+          <FormatSelector />
         </el-col>
-        <el-col :span="15">
+        <el-col :span="13" :offset="1">
           <Overview />
         </el-col>
       </el-row>
@@ -18,13 +18,13 @@
 
 <script>
 import Overview from './components/Overview'
-import RegionSelector from '@/components/RegionSelector'
 import DataDistribution from './components/DataDistribution'
+import FormatSelector from './components/FormatSelector'
 
 export default {
   components: {
     Overview,
-    RegionSelector,
+    FormatSelector,
     DataDistribution
   },
 

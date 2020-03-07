@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
-      <el-col :span="21">
+      <el-col :span="21" class="mt-20">
         <BarEcharts :data="barData" :region="region" />
       </el-col>
     </el-row>
@@ -51,7 +51,7 @@ import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
 import ProductSuggestions from './ProductSuggestion'
 import Checklist from './Checklist'
-import { getData } from '@/api/resource'
+import { getMarketingData } from '@/api/resource'
 
 export default {
   props: {
@@ -72,33 +72,29 @@ export default {
     return {
       barData: {
         title: '',
-        data: [0, 0, 0, 0],
-        dataAxis: ['楼宇', '园区', '专业市场', '高端聚类']
+        data: []
       }
     }
   },
 
   mounted() {
-    this.getData(this.region.adcode)
+    this.getMarketingData(this.region, '餐饮')
+    this.$eventBus.$on('change-type', type => {
+      this.getMarketingData(this.region, type)
+    })
   },
 
   methods: {
-    getData(adcode) {
-      getData(adcode).then(res => {
+    getMarketingData(region, type) {
+      getMarketingData(region, type).then(res => {
         // 柱状图显示的数据
         this.barData = Object.assign({}, this.barData, res)
-        this.barData.title = this.setBarChartsTitle(res.data)
       })
-    },
-
-    setBarChartsTitle(data) {
-      if (!data.length) return
-      let result = 0
-      data.forEach(item => {
-        result += Number(item)
-      })
-      return `${this.region.name}楼宇数量: ${result}（栋）`
     }
+  },
+
+  beforeDestroy() {
+    this.$eventBus.$off('change-type')
   }
 }
 </script>

@@ -84,6 +84,12 @@ export const constantRoutes = [
         name: 'Building',
         component: () => import('@/views/resource/distribution'),
         meta: { title: '楼宇分布', icon: 'table' }
+      },
+      {
+        path: '/resources/income',
+        name: 'Income',
+        component: () => import('@/views/resource/distribution'),
+        meta: { title: '收入分布', icon: 'table' }
       }
     ]
   },
@@ -93,13 +99,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/marketing/expand',
     name: 'Marketing',
-    meta: { icon: 'example' },
+    meta: { title: '营销拓展', icon: 'example' },
     children: [
       {
-        path: 'expand',
+        path: '/marketing/expand',
         name: 'Expand',
         component: () => import('@/views/marketing/expand'),
-        meta: { title: '营销拓展', icon: 'table' }
+        meta: { title: '业态类型', icon: 'table' }
+      },
+      {
+        path: 'theme',
+        name: 'Theme',
+        component: () => import('@/views/marketing/theme'),
+        meta: { title: '主题活动', icon: 'table' }
       }
     ]
   },

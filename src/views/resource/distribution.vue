@@ -1,25 +1,30 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
-      <el-col :span="10">
-        <el-card shadow="never">
-          <Region-Selector :region="region" />
-          <Map :region="region" class="mt-20" />
-        </el-card>
-      </el-col>
-      <el-col :span="14">
-        <el-card shadow="never">
-          <DataDistribution :region="region" />
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row class="mt-20">
-      <el-col :span="24">
-        <el-card shadow="never">
-          <DataDistributionOne :region="region" />
-        </el-card>
-      </el-col>
-    </el-row>
+    <div v-if="$route.name === 'Income'">
+      Comming Soon
+    </div>
+    <div v-else>
+      <el-row :gutter="20">
+        <el-col :span="10">
+          <el-card shadow="never">
+            <Region-Selector :region="region" />
+            <Map :region="region" class="mt-20" />
+          </el-card>
+        </el-col>
+        <el-col :span="14">
+          <el-card shadow="never">
+            <DataDistribution :region="region" />
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row class="mt-20">
+        <el-col :span="24">
+          <el-card shadow="never">
+            <DataDistributionOne :region="region" />
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>

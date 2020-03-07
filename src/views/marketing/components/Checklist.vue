@@ -1,9 +1,21 @@
 <template>
   <div>
-    <el-table :data="checklist" height="320" border style="width: 100%">
-      <el-table-column prop="date" label="日期"> </el-table-column>
-      <el-table-column prop="name" label="姓名"> </el-table-column>
-      <el-table-column prop="address" label="地址"> </el-table-column>
+    <el-table
+      :data="checklist"
+      height="320"
+      border
+      style="width: 100%; font-size: 12px"
+    >
+      <el-table-column prop="city" label="所在市" width="80px">
+      </el-table-column>
+      <el-table-column prop="district" label="所在区" width="80px">
+      </el-table-column>
+      <el-table-column prop="name" label="名称"> </el-table-column>
+      <el-table-column prop="location" label="地理位置"> </el-table-column>
+      <el-table-column prop="type" label="类型" width="120px">
+      </el-table-column>
+      <el-table-column prop="amount" label="房间数量" width="80px">
+      </el-table-column>
     </el-table>
     <el-row type="flex" align="middle">
       <el-col :span="6"><span></span></el-col>
@@ -21,7 +33,7 @@
 </template>
 
 <script>
-import { getChecklist } from '@/api/table'
+import { getDemoList } from '@/api/table'
 export default {
   data() {
     return {
@@ -30,15 +42,15 @@ export default {
   },
 
   methods: {
-    getChecklist() {
-      getChecklist().then(res => {
-        this.checklist = res.data.items
+    getDemoList() {
+      getDemoList().then(res => {
+        this.checklist = res.data
       })
     }
   },
 
   mounted() {
-    this.getChecklist()
+    this.getDemoList()
   }
 }
 </script>

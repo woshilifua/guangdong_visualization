@@ -1,4 +1,31 @@
-import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData } from '@/data/resource/guangdong'
+import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys } from '@/data/resource/guangdong'
+
+// 业务类型数据
+export function getMarketingData(region, type) {
+  let res = {
+    title: '',
+    data: null
+  }
+  let adcode = String(region.adcode)
+  if (adcode === '440000') {
+    Object.assign(res, getProvinceMarketingData(region, type))
+  }
+  return Promise.resolve(res)
+}
+
+const getProvinceMarketingData = (region, type) => {
+  let data = {}
+  let count = 0
+  provinceMarketingData.forEach(item => {
+    let amount = Number(item[provinceTypeKeys[type]])
+    count += amount
+    data[item[0]] = {
+      total: amount
+    }
+  })
+  let title = `${region.name}客户总量: ${count}`
+  return { title, data }
+}
 
 // 地市分布数据
 export function getRegionData(region, scene) {
@@ -6,7 +33,6 @@ export function getRegionData(region, scene) {
     title: '',
     data: null
   }
-
 
   const adcode = String(region.adcode)
   if (adcode === '440000') {
