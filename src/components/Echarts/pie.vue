@@ -5,7 +5,7 @@
     element-loading-text="暂无该分类数据"
     v-loading="dataLoading"
   >
-    <div :ref="'echarts'" style="height:100%;"></div>
+    <div :ref="'echarts'" style="height:100%;" :style="pieStyle"></div>
   </div>
 </template>
 
@@ -18,6 +18,10 @@ export default {
 
   props: {
     data: {
+      type: Object,
+      required: false
+    },
+    pieStyle: {
       type: Object,
       required: false
     }

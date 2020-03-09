@@ -14,7 +14,7 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="21" class="mt-20">
-        <BarEcharts :data="barData" :region="region" />
+        <BarEcharts :data="barData" :region="region" :barStyle="barStyle" />
       </el-col>
     </el-row>
     <el-row
@@ -22,15 +22,13 @@
       justify="center"
       align="middle"
       style="background-color: #fafbfc; padding: 30px 20px;"
+      :gutter="20"
     >
-      <el-col :span="7">
-        <PieEcharts />
+      <el-col :span="8">
+        <PieEcharts :data="pieData" :pieStyle="pieStyle" />
       </el-col>
 
-      <el-col :span="6" :offset="1">
-        <ProductSuggestions />
-      </el-col>
-      <el-col :span="6" :offset="1">
+      <el-col :span="13">
         <ProductSuggestions />
       </el-col>
     </el-row>
@@ -51,16 +49,9 @@ import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
 import ProductSuggestions from './ProductSuggestion'
 import Checklist from './Checklist'
-import { getMarketingData } from '@/api/resource'
+import { getMarketingData, getMarkeitngStructureData } from '@/api/resource'
 
 export default {
-  props: {
-    region: {
-      type: Object,
-      required: true
-    }
-  },
-
   components: {
     BarEcharts,
     PieEcharts,
@@ -70,9 +61,41 @@ export default {
 
   data() {
     return {
+      region: {
+        level: 'province',
+        adcode: 440000,
+        name: '广东省',
+        center: [113.280637, 23.125178]
+      },
       barData: {
         title: '',
-        data: []
+        data: null
+      },
+      barStyle: {
+        height: '300px'
+      },
+      pieData: {
+        title: '',
+        data: null
+      },
+      pieStyle: {
+        height: '180px'
+      },
+      city: '',
+      type: '餐饮'
+    }
+  },
+
+  computed: {
+    cityAndType() {
+      return [this.city, this.type]
+    }
+  },
+
+  watch: {
+    cityAndType: {
+      handler() {
+        this.getMarkeitngStructureData()
       }
     }
   },
@@ -82,13 +105,26 @@ export default {
     this.$eventBus.$on('change-type', type => {
       this.getMarketingData(this.region, type)
     })
+
+    this.$eventBus.$on('active-bar', city => {
+      this.city = city
+    })
   },
 
   methods: {
     getMarketingData(region, type) {
       getMarketingData(region, type).then(res => {
         // 柱状图显示的数据
-        this.barData = Object.assign({}, this.barData, res)
+        Object.assign(this.barData, res)
+        this.city = Object.keys(this.barData.data)[0]
+        this.type = type
+      })
+    },
+
+    getMarkeitngStructureData() {
+      console.log(this.city, this.type)
+      getMarkeitngStructureData(this.city, this.type).then(res => {
+        Object.assign(this.pieData, res)
       })
     }
   },

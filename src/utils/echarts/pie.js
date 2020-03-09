@@ -20,7 +20,7 @@ export default function formatPieEchartsData(obj) {
   return {
     title: {
       text: `${obj.title}分布`,
-      left: 'left'
+      left: 'center'
     },
     tooltip: {
       trigger: 'item',
@@ -33,8 +33,8 @@ export default function formatPieEchartsData(obj) {
         },
         name: '分布情况',
         type: 'pie',
-        radius: ['30%', '80%'],
-        center: ['50%', '55%'],
+        radius: ['30%', '76%'],
+        center: ['50%', '60%'],
         data: seriesData,
         itemStyle: {
           emphasis: {

@@ -1,4 +1,4 @@
-import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys } from '@/data/resource/guangdong'
+import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys, provinceMarketingStructureData } from '@/data/resource/guangdong'
 
 // 业务类型数据
 export function getMarketingData(region, type) {
@@ -27,6 +27,19 @@ const getProvinceMarketingData = (region, type) => {
   return { title, data }
 }
 
+export function getMarkeitngStructureData(city, type) {
+  let res = {
+    title: '',
+    data: null
+  }
+  if (provinceMarketingStructureData[city]) {
+    if (provinceMarketingStructureData[city][type]) {
+      res.data = provinceMarketingStructureData[city][type]
+    }
+  }
+  res.title = `${city}: ${type}`
+  return Promise.resolve(res)
+}
 // 地市分布数据
 export function getRegionData(region, scene) {
   let res = {

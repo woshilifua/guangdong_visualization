@@ -11,7 +11,7 @@
       </el-row>
     </el-card>
     <el-card shadow="never" class="mt-20">
-      <DataDistribution :region="region" />
+      <DataDistribution />
     </el-card>
   </div>
 </template>
@@ -26,27 +26,6 @@ export default {
     Overview,
     FormatSelector,
     DataDistribution
-  },
-
-  data() {
-    return {
-      region: {
-        level: 'province',
-        adcode: 440000,
-        name: '广东省',
-        center: [113.280637, 23.125178]
-      }
-    }
-  },
-
-  mounted() {
-    this.$eventBus.$on('change-region', obj => {
-      Object.assign(this.region, obj)
-    })
-  },
-
-  beforeDestroy() {
-    this.$eventBus.$off('change-region')
   }
 }
 </script>

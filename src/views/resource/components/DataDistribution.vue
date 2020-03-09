@@ -19,7 +19,7 @@
       <el-col :span="16" style="height: 220px;">
         <PieEcharts :data="pieData" />
       </el-col>
-      <el-col :span="12" style="height: 220px;"> </el-col>
+      <el-col :span="12" style="height: 220px;"></el-col>
     </el-row>
   </div>
 </template>
