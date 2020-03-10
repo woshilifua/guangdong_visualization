@@ -8,7 +8,7 @@
         <el-col :span="10">
           <el-card shadow="never">
             <Region-Selector :region="region" />
-            <Map :region="region" class="mt-20" />
+            <Map :region="region" class="mt-20" ref="left" />
           </el-card>
         </el-col>
         <el-col :span="14">

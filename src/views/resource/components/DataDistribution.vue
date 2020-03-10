@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 450px;">
+  <div style="min-height: 450px;" ref="right">
     <el-row>
       <el-col>
         <el-button
@@ -15,11 +15,20 @@
         <BarEcharts :data="barData" :region="region" />
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center">
-      <el-col :span="16" style="height: 220px;">
+    <el-row
+      type="flex"
+      justify="center"
+      align="middle"
+      :gutter="20"
+      style="background-color:#fafbfc; padding: 12px;"
+    >
+      <el-col :span="10" style="height: 220px;">
         <PieEcharts :data="pieData" />
       </el-col>
-      <el-col :span="12" style="height: 220px;"></el-col>
+      <el-col :span="14" v-if="$route.name === 'Building'">
+        <Discription />
+      </el-col>
+      <el-col :span="14" style="height: 220px;" v-else> </el-col>
     </el-row>
   </div>
 </template>
@@ -27,6 +36,7 @@
 <script>
 import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
+import Discription from './Discription'
 import { getData } from '@/api/resource'
 
 export default {
@@ -53,7 +63,8 @@ export default {
 
   components: {
     BarEcharts,
-    PieEcharts
+    PieEcharts,
+    Discription
   },
 
   watch: {
@@ -74,6 +85,14 @@ export default {
       this.pieData.data = this.barData.data[key]
         ? this.barData.data[key].structure
         : null
+    })
+
+    this.$eventBus.$on('data-updated', () => {
+      this.$eventBus.$emit('change-left-height', this.$refs.right.clientHeight)
+    })
+
+    this.$nextTick(function() {
+      this.$eventBus.$emit('change-left-height', this.$refs.right.clientHeight)
     })
   },
 
@@ -107,6 +126,7 @@ export default {
 
   beforeDestroy() {
     this.$eventBus.$off('active-bar')
+    this.$eventBus.$off('data-updated')
   }
 }
 </script>

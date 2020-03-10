@@ -1,6 +1,6 @@
 <template>
   <div
-    style="height:100%; background-color: #fafbfc; padding: 20px;"
+    style="height:100%; padding: 20px;"
     element-loading-spinner="null"
     element-loading-text="暂无该分类数据"
     v-loading="dataLoading"

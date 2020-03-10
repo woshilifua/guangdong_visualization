@@ -1,6 +1,6 @@
 <template>
   <div class="map-container" v-loading="loading">
-    <div id="map" class="map" tabindex="0" />
+    <div id="map" tabindex="0" :style="mapStyle" />
   </div>
 </template>
 
@@ -41,19 +41,32 @@ export default {
       required: true
     }
   },
+
   data() {
     return {
       districtExplorer: null,
       currentAreaNode: null,
-      areaNodeLabels: []
+      areaNodeLabels: [],
+      mapStyle: {
+        height: '440px'
+      }
     }
   },
+
   mixins: [mixins],
+
   computed: {
     adCode() {
       return this.region.adcode
     }
   },
+
+  mounted() {
+    this.$eventBus.$on('change-left-height', height => {
+      this.mapStyle.height = height - 51 + 'px'
+    })
+  },
+
   watch: {
     adCode: {
       handler(adCode) {
@@ -64,6 +77,11 @@ export default {
       immediate: false
     }
   },
+
+  beforeDestroy() {
+    this.$eventBus.$off('change-left-height')
+  },
+
   methods: {
     initDistrictExplorer(adCode) {
       // eslint-disable-next-line
@@ -238,8 +256,5 @@ export default {
 .map-container {
   border: none;
   position: relative;
-}
-.map {
-  height: 440px;
 }
 </style>
