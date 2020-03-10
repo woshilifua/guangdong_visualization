@@ -11,8 +11,8 @@
           <el-popover trigger="hover" placement="left">
             <img
               src="@/assets/images/product_1.png"
-              width="380px"
-              height="300px;"
+              width="475px"
+              height="375px;"
             />
             <div slot="reference">
               <el-tag size="medium">{{ scope.row.name }}</el-tag>

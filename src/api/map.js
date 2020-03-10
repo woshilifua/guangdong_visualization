@@ -1,11 +1,6 @@
-import request from '@/utils/request'
+import districts from '@/data/resource/districts'
 
-export function getDistrict(params) {
-  return request({
-    url: '/v3/config/district',
-    params,
-    method: 'get',
-    baseURL: '/map'
-  })
+export function getDistrict() {
+  return Promise.resolve(districts)
 }
 

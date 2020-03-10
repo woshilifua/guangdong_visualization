@@ -35,21 +35,7 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
-    proxy: {
-      '/map': {
-        target: 'https://restapi.amap.com',
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/map/v3/config/district': '/v3/config/district', // rewrite path
-        },
-        router: {
-          'http://localhost:9528': 'https://restapi.amap.com'
-        }
-      },
-    },
-    after: require('./mock/mock-server.js')
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
