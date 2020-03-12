@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tag type="info">业态类型</el-tag>
+    <el-tag>业态类型</el-tag>
     <el-select
       v-model="type"
       value-key="name"

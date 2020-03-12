@@ -1,14 +1,26 @@
+import { tranNumber } from '@/utils/format'
+
 export default function initOption(obj) {
   let values = []
   let dataAxis = []
+  let data = []
   Object.keys(obj.data).forEach(key => {
-    dataAxis.push(key)
-    values.push(obj.data[key].total)
+    data.push({
+      key: key,
+      data: obj.data[key]
+    })
   })
+  data.sort((a, b) => {
+    return b.data.total - a.data.total
+  })
+  data.forEach((item) => {
+    dataAxis.push(item.key)
+    values.push(item.data.total)
+  })
+
   let option = {
     title: {
       text: obj.title
-      // subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
     },
     xAxis: {
       data: dataAxis
@@ -25,6 +37,7 @@ export default function initOption(obj) {
       trigger: 'item',
       formatter: '{b}: {c}'
     },
+
     series: [
       {
         float: 'left',
@@ -32,13 +45,34 @@ export default function initOption(obj) {
         label: {
           normal: {
             show: true,
-            position: 'top'
+            position: 'top',
+            formatter: (a) => {
+              return tranNumber(a.value)
+            }
           }
         },
-        barWidth: 24,
+        barWidth: 30,
+        barCategoryGap: 50,
         data: values
       }
     ]
+  }
+
+  if (values.length > 4) {
+    option['dataZoom'] =
+      [
+        {
+          type: 'inside',
+          show: true,
+          realtime: false,
+          start: 0,
+          end: 50,
+          zoomLock: true,
+          zoomOnMouseWheel: false,
+          moveOnMouseMove: true,
+          moveOnMouseWheel: true
+        }
+      ]
   }
   return option
 }

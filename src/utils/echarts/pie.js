@@ -23,7 +23,8 @@ export default function formatPieEchartsData(obj) {
       left: 'center'
     },
     tooltip: {
-      trigger: 'item',
+      position: 'right',
+      left: 'right',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
     series: [

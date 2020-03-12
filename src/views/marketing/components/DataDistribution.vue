@@ -122,7 +122,6 @@ export default {
     },
 
     getMarkeitngStructureData() {
-      console.log(this.city, this.type)
       getMarkeitngStructureData(this.city, this.type).then(res => {
         Object.assign(this.pieData, res)
       })

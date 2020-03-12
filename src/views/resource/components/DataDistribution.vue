@@ -38,6 +38,7 @@ import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
 import Discription from './Discription'
 import { getData } from '@/api/resource'
+import { getFirstStructure } from '@/utils/common'
 
 export default {
   props: {
@@ -114,12 +115,7 @@ export default {
         Object.assign(this.barData, res)
 
         // 饼状图显示的数据, 默认第一个为初始化的数据
-        if (res.data === null) {
-          this.pieData.data = null
-        } else {
-          this.pieData.title = Object.keys(res.data)[0]
-          this.pieData.data = res.data[Object.keys(res.data)[0]].structure
-        }
+        Object.assign(this.pieData, getFirstStructure(res))
       })
     }
   },
