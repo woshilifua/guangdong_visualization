@@ -52,7 +52,8 @@ export default {
     return {
       barData: {
         title: '',
-        data: null
+        data: null,
+        related: true // 是否是关联的 Echarts, false 的时候不需要监听 Echarts 的变化
       },
       pieData: {
         title: '',

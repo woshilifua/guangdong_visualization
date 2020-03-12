@@ -49,6 +49,7 @@ import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
 import ProductSuggestions from './ProductSuggestion'
 import Checklist from './Checklist'
+import { getFirstCity } from '@/utils/common'
 import { getMarketingData, getMarkeitngStructureData } from '@/api/resource'
 
 export default {
@@ -69,7 +70,8 @@ export default {
       },
       barData: {
         title: '',
-        data: null
+        data: null,
+        related: true
       },
       barStyle: {
         height: '300px'
@@ -81,7 +83,7 @@ export default {
       pieStyle: {
         height: '180px'
       },
-      city: '',
+      city: '广州市',
       type: '餐饮'
     }
   },
@@ -96,7 +98,8 @@ export default {
     cityAndType: {
       handler() {
         this.getMarkeitngStructureData()
-      }
+      },
+      immediate: true
     }
   },
 
@@ -116,7 +119,7 @@ export default {
       getMarketingData(region, type).then(res => {
         // 柱状图显示的数据
         Object.assign(this.barData, res)
-        this.city = Object.keys(this.barData.data)[0]
+        this.city = getFirstCity(res)
         this.type = type
       })
     },

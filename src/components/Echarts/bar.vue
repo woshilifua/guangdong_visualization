@@ -65,6 +65,7 @@ export default {
     },
 
     setEchartsEvent() {
+      if (!this.data.related) return // 没有关联的数据不需要监听
       this.echarts.on('mouseover', 'series', params => {
         this.$eventBus.$emit('active-bar', params.name)
       })

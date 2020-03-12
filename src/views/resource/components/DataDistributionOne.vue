@@ -28,7 +28,8 @@ export default {
     return {
       barData: {
         title: '',
-        data: null
+        data: null,
+        related: false
       },
       barStyle: {
         height: '400px'
