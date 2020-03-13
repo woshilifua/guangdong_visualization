@@ -9,18 +9,31 @@ const echartsThemeColors = [
 ]
 
 export default function formatPieEchartsData(obj) {
+
   let seriesData = []
+  let legendData = []
+
   Object.keys(obj.data).forEach((key, index) => {
     seriesData.push({
       name: key,
       value: obj.data[key],
       itemStyle: { color: echartsThemeColors[index] }
     })
+    legendData.push(key)
   })
+
   return {
     title: {
-      text: `${obj.title}分布`,
       left: 'center'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+      top: 'middle',
+      data: legendData,
+      formatter: (value) => {
+        return value
+      }
     },
     tooltip: {
       position: 'right',
@@ -30,12 +43,12 @@ export default function formatPieEchartsData(obj) {
     series: [
       {
         label: {
-          position: 'inner',
+          show: false
         },
         name: '分布情况',
         type: 'pie',
         radius: ['30%', '76%'],
-        center: ['50%', '60%'],
+        center: ['50%', '55%'],
         data: seriesData,
         itemStyle: {
           emphasis: {

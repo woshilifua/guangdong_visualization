@@ -41,7 +41,7 @@ export default {
 
   computed: {
     conditions() {
-      // 监听 region， $route 和 industry 的变化
+      // 监听 region，route 和 industry 的变化
       return [this.region, this.$route.name, this.industry]
     }
   },
@@ -50,7 +50,8 @@ export default {
     conditions: {
       handler() {
         this.getRegionData(this.region, this.$route.name, this.industry)
-      }
+      },
+      deep: true
     }
   },
 

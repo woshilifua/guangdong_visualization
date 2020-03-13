@@ -1,5 +1,7 @@
 import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys, provinceMarketingStructureData, industrialDistribution } from '@/data/resource/guangdong'
 
+import { industryData } from '@/data/resource/industry'
+
 /*
 * region 区域
 * type 业态类型
@@ -133,9 +135,10 @@ const getCityRegionData = (region, scene) => {
 
 export function getData(region, scene) {
   let res = {
-    data: null,
-    title: ''
+    title: '',
+    data: null
   }
+
   if (scene === 'Format') return getFormatData(region, scene)
 
   let regex = /^440.*/
@@ -248,6 +251,21 @@ const getProvinceStructure = (key, scene) => {
   })
   return data
 }
+
+const getProvinceStructureOne = (key) => {
+  let data = {}
+  industryData.forEach(item => {
+    if (key === item[1]) {
+      if (!data[item[2]]) {
+        data[item[2]] = Number(item[3])
+      } else {
+        data[item[2]] += Number(item[3])
+      }
+    }
+  })
+  return data
+}
+
 const formatProvinceData = (scene) => {
   let data = {}
   provinceData.forEach(item => {
@@ -255,9 +273,13 @@ const formatProvinceData = (scene) => {
       total: scene === 'Building' ? item[1] : item[2],
       structure: getProvinceStructure(item[0], scene)
     }
+    if (scene === 'Company') {
+      data[item[0]]['structureOne'] = getProvinceStructureOne(item[0])
+    }
   })
   return data
 }
+
 const getProvinceData = (region, scene) => {
   let count = scene === 'Building' ? 40854 : 2378280
   return {

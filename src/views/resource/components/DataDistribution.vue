@@ -21,14 +21,49 @@
       align="middle"
       :gutter="20"
       style="background-color:#fafbfc; padding: 12px;"
+      v-if="$route.name === 'Building'"
     >
-      <el-col :span="10" style="height: 220px;">
-        <PieEcharts :data="pieData" />
+      <el-col :span="12" style="height: 220px;">
+        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
       </el-col>
-      <el-col :span="14" v-if="$route.name === 'Building'">
+      <el-col :span="12" style="height: 220px;">
         <Discription />
       </el-col>
-      <el-col :span="14" style="height: 220px;" v-else> </el-col>
+    </el-row>
+    <el-row v-if="$route.name === 'Company'">
+      <el-col :span="24">
+        <el-tabs v-model="activeLabel">
+          <el-tab-pane :label="`${activeKey}细分构成`" name="first">
+            <PieEcharts
+              :pieData="pieData"
+              :pieStyle="pieStyle"
+              v-if="activeLabel === 'first'"
+            />
+          </el-tab-pane>
+          <el-tab-pane :label="`${activeKey}行业构成`" name="second">
+            <PieEcharts
+              :pieData="pieDataOne"
+              :pieStyle="pieStyle"
+              v-if="activeLabel === 'second'"
+            />
+          </el-tab-pane>
+        </el-tabs>
+      </el-col>
+    </el-row>
+    <el-row
+      type="flex"
+      justify="center"
+      align="middle"
+      :gutter="20"
+      style="background-color:#fafbfc; padding: 12px;"
+      v-if="$route.name === 'Format'"
+    >
+      <el-col :span="12" style="height: 220px;">
+        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
+      </el-col>
+      <el-col :span="12" style="height: 220px;">
+        <Discription />
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -59,7 +94,15 @@ export default {
         title: '',
         data: null
       },
-      pieDataList: []
+      pieDataOne: {
+        title: '',
+        data: null
+      },
+      pieStyle: {
+        height: '240px'
+      },
+      activeLabel: 'first',
+      activeKey: ''
     }
   },
 
@@ -69,13 +112,39 @@ export default {
     Discription
   },
 
+  computed: {
+    conditions() {
+      return [this.activeKey, this.activeLabel, this.barData]
+    }
+  },
   watch: {
+    // 监听 region 的变化获取 data
     region: {
       handler(region) {
         this.getData(region, this.$route.name)
       },
       deep: true,
       immediate: false
+    },
+
+    conditions: {
+      handler() {
+        if (this.barData.data === null) {
+          // 如果 barData 的数据为空，则需要把两个 pie data 都置为空
+          this.pieData.data = this.pieDataOne.data = null
+        } else {
+          let data = this.barData.data[this.activeKey]
+          if (!data) return
+          Object.assign(this.pieData, {
+            title: this.activeKey,
+            data: data.structure ? data.structure : null
+          })
+          Object.assign(this.pieDataOne, {
+            title: this.activeKey,
+            data: data.structureOne ? data.structureOne : null
+          })
+        }
+      }
     }
   },
 
@@ -83,10 +152,7 @@ export default {
     this.getData(this.region, this.$route.name)
     // 监听 bar 的变化
     this.$eventBus.$on('active-bar', key => {
-      this.pieData.title = key
-      this.pieData.data = this.barData.data[key]
-        ? this.barData.data[key].structure
-        : null
+      this.activeKey = key
     })
 
     this.$eventBus.$on('data-updated', () => {
@@ -107,17 +173,16 @@ export default {
          *  data: {
          *    写字楼: {
          *       total: 123,
-         *       structure: {}
+         *       structure: {},
+         *       structureOne: {}
          *    },
          *    高端聚类: {
          *    }
          *  }
          */
         Object.assign(this.barData, res)
-
-        // 饼状图显示的数据, 默认第一个为初始化的数据
-        Object.assign(this.pieData, getFirstStructure(res))
-        this.$eventBus.$emit('active-bar', getFirstStructure(res).title)
+        this.activeKey = getFirstStructure(res, 'structure').title
+        // this.$eventBus.$emit('active-bar', this.pieData.title)
       })
     }
   },

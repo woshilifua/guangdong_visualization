@@ -1,11 +1,11 @@
 <template>
   <div
-    style="height:100%; padding: 20px;"
     element-loading-spinner="null"
     element-loading-text="暂无该分类数据"
     v-loading="dataLoading"
+    :style="pieStyle"
   >
-    <div :ref="'echarts'" style="height:100%;" :style="pieStyle"></div>
+    <div :ref="'echarts'" :style="pieStyle"></div>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   mixins: [mixins],
 
   props: {
-    data: {
+    pieData: {
       type: Object,
       required: false
     },
@@ -34,13 +34,8 @@ export default {
   },
 
   watch: {
-    data: {
+    pieData: {
       handler(obj) {
-        if (obj.data === null) {
-          this.dataLoading = true
-          return
-        }
-        this.dataLoading = false
         this.setOption(obj)
       },
       deep: true
@@ -49,12 +44,18 @@ export default {
 
   mounted() {
     this.initEcharts('echarts')
+    this.setOption(this.pieData)
   },
 
   methods: {
     setOption(obj) {
-      let option = initOption(obj)
-      this.echarts.setOption(option)
+      if (obj.data === null) {
+        this.dataLoading = true
+      } else {
+        this.dataLoading = false
+        let option = initOption(obj)
+        this.echarts.setOption(option)
+      }
     }
   }
 }

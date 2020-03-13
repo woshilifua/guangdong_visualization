@@ -25,7 +25,7 @@
       :gutter="20"
     >
       <el-col :span="8">
-        <PieEcharts :data="pieData" :pieStyle="pieStyle" />
+        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
       </el-col>
 
       <el-col :span="13">
@@ -89,15 +89,15 @@ export default {
   },
 
   computed: {
-    cityAndType() {
+    conditions() {
       return [this.city, this.type]
     }
   },
 
   watch: {
-    cityAndType: {
+    conditions: {
       handler() {
-        this.getMarkeitngStructureData()
+        this.getMarkeitngStructureData(this.city, this.type)
       },
       immediate: true
     }
@@ -105,6 +105,7 @@ export default {
 
   mounted() {
     this.getMarketingData(this.region, '餐饮')
+
     this.$eventBus.$on('change-type', type => {
       this.getMarketingData(this.region, type)
     })
@@ -124,8 +125,8 @@ export default {
       })
     },
 
-    getMarkeitngStructureData() {
-      getMarkeitngStructureData(this.city, this.type).then(res => {
+    getMarkeitngStructureData(city, type) {
+      getMarkeitngStructureData(city, type).then(res => {
         Object.assign(this.pieData, res)
       })
     }

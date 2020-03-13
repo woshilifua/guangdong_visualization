@@ -5,7 +5,9 @@
       border
       stripe
       :show-header="false"
+      :row-style="{ 'max-height': '80px', 'overflow-y': 'scroll' }"
       style="width: 100%; font-size: 10px;"
+      max-height="320"
     >
       <el-table-column prop="name" width="40px" align="center">
       </el-table-column>
