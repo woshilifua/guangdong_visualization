@@ -61,6 +61,7 @@ export default {
   methods: {
     setOption(data) {
       let option = initOption(data)
+      this.echarts.clear()
       this.echarts.setOption(option)
     },
 

@@ -29,31 +29,44 @@ export default {
       barData: {
         title: '',
         data: null,
+        correlationData: null,
         related: false
       },
       barStyle: {
         height: '400px'
-      }
+      },
+      industry: '写字楼'
+    }
+  },
+
+  computed: {
+    conditions() {
+      // 监听 region， $route 和 industry 的变化
+      return [this.region, this.$route.name, this.industry]
     }
   },
 
   watch: {
-    region: {
-      handler(region) {
-        this.getRegionData(region, this.$route.name)
-      },
-      deep: true,
-      immediate: false
+    conditions: {
+      handler() {
+        this.getRegionData(this.region, this.$route.name, this.industry)
+      }
     }
   },
 
+  beforeMount() {
+    this.$eventBus.$on('active-bar', key => {
+      this.industry = key
+    })
+  },
+
   mounted() {
-    this.getRegionData(this.region, this.$route.name)
+    this.getRegionData(this.region, this.$route.name, this.industry)
   },
 
   methods: {
-    getRegionData(region, scene) {
-      getRegionData(region, scene).then(res => {
+    getRegionData(region, scene, industry) {
+      getRegionData(region, scene, industry).then(res => {
         // 柱状图显示的数据
         /*
          * res = {

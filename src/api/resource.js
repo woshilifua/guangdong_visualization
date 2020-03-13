@@ -1,4 +1,11 @@
-import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys, provinceMarketingStructureData } from '@/data/resource/guangdong'
+import { allData, provinceRegionData, cityFormatData, provinceData, provinceSubdivisionData, provinceFormatData, provinceMarketingData, provinceTypeKeys, provinceMarketingStructureData, industrialDistribution } from '@/data/resource/guangdong'
+
+/*
+* region 区域
+* type 业态类型
+* industry 行业类型
+* scene 场景
+*/
 
 // 业务类型数据
 export function getMarketingData(region, type) {
@@ -41,15 +48,16 @@ export function getMarkeitngStructureData(city, type) {
   return Promise.resolve(res)
 }
 // 地市分布数据
-export function getRegionData(region, scene) {
+export function getRegionData(region, scene, industry) {
   let res = {
     title: '',
-    data: null
+    data: null,
+    correlationData: null
   }
 
   const adcode = String(region.adcode)
   if (adcode === '440000') {
-    Object.assign(res, getProvinceRegionData(region, scene))
+    Object.assign(res, getProvinceRegionData(region, scene, industry))
   } else if (adcode === '440100') {
     if (scene === 'Format') return Promise.resolve(res)
     Object.assign(res, getCityRegionData(region, scene))
@@ -57,8 +65,9 @@ export function getRegionData(region, scene) {
   return Promise.resolve(res)
 }
 
-const getProvinceRegionData = (region, scene) => {
+const getProvinceRegionData = (region, scene, industry) => {
   let data = {}
+  let correlationData = null
   let count = 0
   let SCENEKEYS = {
     Company: {
@@ -81,8 +90,25 @@ const getProvinceRegionData = (region, scene) => {
       total: amount
     }
   })
+
+  // 除去业态分布的场景
+  if (scene !== 'Format' && industrialDistribution[industry]) {
+    correlationData = {
+      title: industry,
+      data: {}
+    }
+
+    industrialDistribution[industry].forEach(item => {
+      let amount = Number(item[SCENEKEYS[scene].key])
+      correlationData.data[item[0]] = {
+        total: amount
+      }
+    })
+  }
+
+
   let title = `${region.name}${SCENEKEYS[scene].title}: ${count}`
-  return { title, data }
+  return { title, data, correlationData }
 }
 
 const getCityRegionData = (region, scene) => {

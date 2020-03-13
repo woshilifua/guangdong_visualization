@@ -117,6 +117,7 @@ export default {
 
         // 饼状图显示的数据, 默认第一个为初始化的数据
         Object.assign(this.pieData, getFirstStructure(res))
+        this.$eventBus.$emit('active-bar', getFirstStructure(res).title)
       })
     }
   },
