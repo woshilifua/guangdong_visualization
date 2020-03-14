@@ -4,14 +4,18 @@
       :data="tableData"
       border
       stripe
-      :show-header="false"
       :row-style="{ 'max-height': '80px', 'overflow-y': 'scroll' }"
       style="width: 100%; font-size: 10px;"
       max-height="320"
     >
-      <el-table-column prop="name" width="40px" align="center">
+      <el-table-column
+        prop="name"
+        width="120px"
+        align="center"
+        label="细分名称"
+      >
       </el-table-column>
-      <el-table-column prop="desc"> </el-table-column>
+      <el-table-column prop="desc" label="细分说明"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -84,22 +88,35 @@ const TYPEDISCRIPTIONS = {
   ]
 }
 export default {
-  data() {
-    return {
-      key: '写字楼',
-      tableData: TYPEDISCRIPTIONS['写字楼']
+  props: {
+    activeKey: {
+      type: String,
+      required: false
     }
   },
 
-  mounted() {
-    this.$eventBus.$on('active-bar', key => {
-      if (key === this.key) return
-      this.key = key
+  data() {
+    return {
+      tableData: TYPEDISCRIPTIONS[this.key]
+    }
+  },
+
+  watch: {
+    activeKey: {
+      handler(key) {
+        this.setTableData(key)
+      }
+    }
+  },
+
+  methods: {
+    setTableData(key) {
+      if (!key || !TYPEDISCRIPTIONS[key]) return
       this.tableData = TYPEDISCRIPTIONS[key]
       this.$nextTick(function() {
         this.$eventBus.$emit('data-updated')
       })
-    })
+    }
   }
 }
 </script>

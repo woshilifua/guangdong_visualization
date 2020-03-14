@@ -17,17 +17,23 @@
     </el-row>
     <el-row
       type="flex"
-      justify="center"
-      align="middle"
-      :gutter="20"
-      style="background-color:#fafbfc; padding: 12px;"
-      v-if="$route.name === 'Building'"
+      v-if="$route.name === 'Building' || $route.name === 'Format'"
     >
-      <el-col :span="12" style="height: 220px;">
-        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
-      </el-col>
-      <el-col :span="12" style="height: 220px;">
-        <Discription />
+      <el-col :span="24">
+        <el-tabs v-model="activeLabel">
+          <el-tab-pane :label="`${activeKey}细分构成`" name="first">
+            <PieEcharts
+              :pieData="pieData"
+              :pieStyle="buildingPieStyle"
+              v-if="activeLabel === 'first'"
+            />
+            <Discription
+              class="mt-20"
+              :activeKey="activeKey"
+              v-if="$route.name === 'Building'"
+            />
+          </el-tab-pane>
+        </el-tabs>
       </el-col>
     </el-row>
     <el-row v-if="$route.name === 'Company'">
@@ -48,21 +54,6 @@
             />
           </el-tab-pane>
         </el-tabs>
-      </el-col>
-    </el-row>
-    <el-row
-      type="flex"
-      justify="center"
-      align="middle"
-      :gutter="20"
-      style="background-color:#fafbfc; padding: 12px;"
-      v-if="$route.name === 'Format'"
-    >
-      <el-col :span="12" style="height: 220px;">
-        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
-      </el-col>
-      <el-col :span="12" style="height: 220px;">
-        <Discription />
       </el-col>
     </el-row>
   </div>
@@ -100,6 +91,9 @@ export default {
       },
       pieStyle: {
         height: '240px'
+      },
+      buildingPieStyle: {
+        height: '200px'
       },
       activeLabel: 'first',
       activeKey: ''
