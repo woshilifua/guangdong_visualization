@@ -14,7 +14,7 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="21" class="mt-20">
-        <BarEcharts :data="barData" :region="region" :barStyle="barStyle" />
+        <BarEcharts :barData="barData" :region="region" :barStyle="barStyle" />
       </el-col>
     </el-row>
     <el-row

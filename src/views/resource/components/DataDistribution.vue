@@ -12,7 +12,7 @@
         <el-tag class="fr">数据更新时间: 2020-02-02</el-tag>
       </el-col>
       <el-col style="height: 240px;">
-        <BarEcharts :data="barData" :region="region" />
+        <BarEcharts :barData="barData" :region="region" />
       </el-col>
     </el-row>
     <el-row
@@ -112,11 +112,6 @@ export default {
     Discription
   },
 
-  computed: {
-    conditions() {
-      return [this.activeKey, this.activeLabel, this.barData]
-    }
-  },
   watch: {
     // 监听 region 的变化获取 data
     region: {
@@ -127,23 +122,9 @@ export default {
       immediate: false
     },
 
-    conditions: {
+    activeKey: {
       handler() {
-        if (this.barData.data === null) {
-          // 如果 barData 的数据为空，则需要把两个 pie data 都置为空
-          this.pieData.data = this.pieDataOne.data = null
-        } else {
-          let data = this.barData.data[this.activeKey]
-          if (!data) return
-          Object.assign(this.pieData, {
-            title: this.activeKey,
-            data: data.structure ? data.structure : null
-          })
-          Object.assign(this.pieDataOne, {
-            title: this.activeKey,
-            data: data.structureOne ? data.structureOne : null
-          })
-        }
+        this.setPieData()
       }
     }
   },
@@ -173,17 +154,38 @@ export default {
          *  data: {
          *    写字楼: {
          *       total: 123,
-         *       structure: {},
-         *       structureOne: {}
+         *       structure: {}, // 第一个 pie 的数据
+         *       structureOne: {} // 第二个 pie 的数据
          *    },
          *    高端聚类: {
          *    }
          *  }
+         *
+         * barData 数据的排序会在 bar component 里面进行
          */
         Object.assign(this.barData, res)
         this.activeKey = getFirstStructure(res, 'structure').title
+        this.setPieData()
         // this.$eventBus.$emit('active-bar', this.pieData.title)
       })
+    },
+
+    setPieData() {
+      if (this.barData.data === null) {
+        // 如果 barData 的数据为空，则需要把两个 pie data 都置为空
+        this.pieData.data = this.pieDataOne.data = null
+      } else {
+        let data = this.barData.data[this.activeKey]
+        if (!data) return
+        Object.assign(this.pieData, {
+          title: this.activeKey,
+          data: data.structure ? data.structure : null
+        })
+        Object.assign(this.pieDataOne, {
+          title: this.activeKey,
+          data: data.structureOne ? data.structureOne : null
+        })
+      }
     }
   },
 

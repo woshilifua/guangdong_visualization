@@ -1,3 +1,5 @@
+import { tranNumber } from '@/utils/format'
+
 const echartsThemeColors = [
   '#8776e6',
   '#fdbf36',
@@ -43,12 +45,15 @@ export default function formatPieEchartsData(obj) {
     series: [
       {
         label: {
-          show: false
+          show: true,
+          formatter: (obj) => {
+            return tranNumber(obj.value)
+          }
         },
         name: '分布情况',
         type: 'pie',
         radius: ['30%', '76%'],
-        center: ['50%', '55%'],
+        center: ['55%', '55%'],
         data: seriesData,
         itemStyle: {
           emphasis: {

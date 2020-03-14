@@ -29,7 +29,7 @@ export default {
       type: Object,
       required: false
     },
-    data: {
+    barData: {
       type: Object,
       required: true
     },
@@ -40,13 +40,10 @@ export default {
   },
 
   watch: {
-    data: {
+    barData: {
       handler(obj) {
-        // 判断数据为空的情况
-        if (obj.data === null) {
-          this.dataLoading = true
-          return
-        }
+        this.dataLoading = true
+        if (obj.data === null) return
         this.dataLoading = false
         this.setOption(obj)
       },
@@ -59,14 +56,14 @@ export default {
   },
 
   methods: {
-    setOption(data) {
-      let option = initOption(data)
+    setOption(obj) {
+      let option = initOption(obj)
       this.echarts.clear()
       this.echarts.setOption(option)
     },
 
     setEchartsEvent() {
-      if (!this.data.related) return // 没有关联的数据不需要监听
+      if (!this.barData.related) return // 没有关联的数据不需要监听
       this.echarts.on('mouseover', 'series', params => {
         this.$eventBus.$emit('active-bar', params.name)
       })

@@ -2,7 +2,7 @@
   <div class="charts-container">
     <el-row>
       <el-col>
-        <BarEcharts :data="barData" :region="region" :barStyle="barStyle" />
+        <BarEcharts :barData="barData" :region="region" :barStyle="barStyle" />
       </el-col>
     </el-row>
   </div>
