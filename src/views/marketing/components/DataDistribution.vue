@@ -17,28 +17,31 @@
         <BarEcharts :barData="barData" :region="region" :barStyle="barStyle" />
       </el-col>
     </el-row>
-    <el-row
-      type="flex"
-      justify="center"
-      align="middle"
-      style="background-color: #fafbfc; padding: 30px 20px;"
-      :gutter="20"
-    >
+    <el-row type="flex" justify="center">
+      <el-col :span="21">
+        <el-divider content-position="left"
+          >{{ this.city }}客户细分构成及建议产品</el-divider
+        >
+      </el-col>
+    </el-row>
+    <el-row type="flex" justify="center" align="middle" :gutter="20">
       <el-col :span="8">
         <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
       </el-col>
-
       <el-col :span="13">
         <ProductSuggestions />
       </el-col>
     </el-row>
-    <el-row
-      type="flex"
-      justify="center"
-      style="background-color: #fafbfc; padding: 20px;"
-    >
+
+    <el-row type="flex" justify="center" class="mt-20">
       <el-col :span="21">
-        <Checklist />
+        <el-divider content-position="left">{{ this.city }}客户清单</el-divider>
+      </el-col>
+    </el-row>
+
+    <el-row type="flex" justify="center" class="mt-10">
+      <el-col :span="21">
+        <Checklist :city="city" :type="type"/>
       </el-col>
     </el-row>
   </div>
@@ -107,6 +110,7 @@ export default {
     this.getMarketingData(this.region, '餐饮')
 
     this.$eventBus.$on('change-type', type => {
+      this.type = type
       this.getMarketingData(this.region, type)
     })
 

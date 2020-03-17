@@ -1,20 +1,23 @@
 <template>
-  <div>
+  <div
+    element-loading-spinner="null"
+    element-loading-text="暂无该分类数据"
+    v-loading="dataLoading"
+  >
     <el-table
       :data="checklist"
-      height="320"
-      border
+      height="360"
       style="width: 100%; font-size: 12px"
     >
-      <el-table-column prop="district" label="所在区域" width="80px">
+      <el-table-column prop="district" sortable label="区域" width="100px">
       </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="location" label="地理位置"> </el-table-column>
       <el-table-column prop="type" label="类型" width="100px">
       </el-table-column>
-      <el-table-column prop="amount" label="房间数量" width="80px">
+      <el-table-column prop="amount" label="房间数量" width="70px">
       </el-table-column>
-      <el-table-column label="客户质量" width="100px" align="center">
+      <el-table-column label="客户质量" width="80px" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.score" size="small" style="width: 50px;">
             {{ scope.row.score | quality }}
@@ -40,23 +43,39 @@
 <script>
 import { getDemoList } from '@/api/table'
 export default {
+  props: {
+    city: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    }
+  },
+
   data() {
     return {
       value: 3,
-      checklist: []
+      checklist: [],
+      dataLoading: false
     }
   },
 
   methods: {
-    getDemoList() {
-      getDemoList().then(res => {
-        this.checklist = res.data
+    getDemoList(city, type) {
+      getDemoList(city, type).then(res => {
+        if (!res.data) {
+          this.dataLoading = true
+        } else {
+          this.checklist = res.data
+        }
       })
     }
   },
 
   mounted() {
-    this.getDemoList()
+    this.getDemoList(this.city, this.type)
   },
 
   filters: {
