@@ -41,7 +41,7 @@
 
     <el-row type="flex" justify="center" class="mt-10">
       <el-col :span="21">
-        <Checklist :city="city" :type="type"/>
+        <Checklist :city="city" :type="type" />
       </el-col>
     </el-row>
   </div>
@@ -53,7 +53,7 @@ import PieEcharts from '@/components/Echarts/pie'
 import ProductSuggestions from './ProductSuggestion'
 import Checklist from './Checklist'
 import { getFirstCity } from '@/utils/common'
-import { getMarketingData, getMarkeitngStructureData } from '@/api/resource'
+import marketing from '@/api/marketing/data'
 
 export default {
   components: {
@@ -100,7 +100,7 @@ export default {
   watch: {
     conditions: {
       handler() {
-        this.getMarkeitngStructureData(this.city, this.type)
+        this.getMarketingStructureData(this.city, this.type)
       },
       immediate: true
     }
@@ -121,7 +121,7 @@ export default {
 
   methods: {
     getMarketingData(region, type) {
-      getMarketingData(region, type).then(res => {
+      marketing.getData(region, type).then(res => {
         // 柱状图显示的数据
         Object.assign(this.barData, res)
         this.city = getFirstCity(res)
@@ -129,8 +129,8 @@ export default {
       })
     },
 
-    getMarkeitngStructureData(city, type) {
-      getMarkeitngStructureData(city, type).then(res => {
+    getMarketingStructureData(city, type) {
+      marketing.getStructData(city, type).then(res => {
         Object.assign(this.pieData, res)
       })
     }

@@ -63,8 +63,17 @@
 import BarEcharts from '@/components/Echarts/bar'
 import PieEcharts from '@/components/Echarts/pie'
 import Discription from './Discription'
-import { getData } from '@/api/resource'
+import company from '@/api/resource/company'
+import building from '@/api/resource/building'
+import format from '@/api/resource/format'
+
 import { getFirstStructure } from '@/utils/common'
+
+const API = {
+  Company: company,
+  Building: building,
+  Format: format
+}
 
 export default {
   props: {
@@ -77,16 +86,16 @@ export default {
   data() {
     return {
       barData: {
-        title: '',
+        title: null,
         data: null,
         related: true // 是否是关联的 Echarts, false 的时候不需要监听 Echarts 的变化
       },
       pieData: {
-        title: '',
+        title: null,
         data: null
       },
       pieDataOne: {
-        title: '',
+        title: null,
         data: null
       },
       pieStyle: {
@@ -141,26 +150,25 @@ export default {
 
   methods: {
     getData(region, scene) {
-      getData(region, scene).then(res => {
-        /* 柱状图显示的数据
-         * res = {
-         *  title: '广东省楼宇总数 7321',
-         *  data: {
-         *    写字楼: {
-         *       total: 123,
-         *       structure: {}, // 第一个 pie 的数据
-         *       structureOne: {} // 第二个 pie 的数据
-         *    },
-         *    高端聚类: {
-         *    }
-         *  }
-         *
-         * barData 数据的排序会在 bar component 里面进行
-         */
+      /* 柱状图显示的数据
+       * res = {
+       *  title: '广东省楼宇总数 7321',
+       *  data: {
+       *    写字楼: {
+       *       total: 123,
+       *       structure: {}, // 第一个 pie 的数据
+       *       structureOne: {} // 第二个 pie 的数据
+       *    },
+       *    高端聚类: {
+       *    }
+       *  }
+       *
+       * barData 数据的排序会在 bar component 里面进行
+       */
+      API[scene].getData(region).then(res => {
         Object.assign(this.barData, res)
         this.activeKey = getFirstStructure(res, 'structure').title
         this.setPieData()
-        // this.$eventBus.$emit('active-bar', this.pieData.title)
       })
     },
 

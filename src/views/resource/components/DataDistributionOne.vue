@@ -10,7 +10,7 @@
 
 <script>
 import BarEcharts from '@/components/Echarts/bar'
-import { getRegionData } from '@/api/resource'
+import regionAPI from '@/api/resource/region'
 
 export default {
   props: {
@@ -67,7 +67,7 @@ export default {
 
   methods: {
     getRegionData(region, scene, industry) {
-      getRegionData(region, scene, industry).then(res => {
+      regionAPI.getData(region, scene, industry).then(res => {
         // 柱状图显示的数据
         /*
          * res = {
