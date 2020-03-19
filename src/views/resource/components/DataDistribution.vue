@@ -174,6 +174,7 @@ export default {
       API[scene].getData(region).then(res => {
         Object.assign(this.barData, res)
         this.activeKey = getFirstStructure(res, 'structure').title
+        this.$eventBus.$emit('active-bar', this.activeKey)
         this.setPieData()
       })
     },
