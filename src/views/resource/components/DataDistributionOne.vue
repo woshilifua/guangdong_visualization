@@ -12,6 +12,15 @@
 import BarEcharts from '@/components/Echarts/bar'
 import regionAPI from '@/api/resource/region'
 
+const STATUSNAME = {
+  Company: '企业',
+  Format: '客户',
+  Building: '楼宇'
+}
+
+const setDataName = name => {
+  return `${STATUSNAME[name]}`
+}
 export default {
   props: {
     region: {
@@ -27,15 +36,16 @@ export default {
   data() {
     return {
       barData: {
-        title: '',
+        title: null,
         data: null,
+        dataName: setDataName(this.$route.name),
         correlationData: null,
         related: false
       },
       barStyle: {
         height: '400px'
       },
-      industry: '写字楼'
+      industry: '零星商铺'
     }
   },
 

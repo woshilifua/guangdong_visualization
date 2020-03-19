@@ -14,7 +14,6 @@ export default function formatPieEchartsData(obj) {
 
   let seriesData = []
   let legendData = []
-
   Object.keys(obj.data).forEach((key, index) => {
     seriesData.push({
       name: key,
@@ -34,7 +33,7 @@ export default function formatPieEchartsData(obj) {
       top: 'middle',
       data: legendData,
       formatter: (value) => {
-        return value
+        return `${value}${obj.title}数量`
       }
     },
     tooltip: {
@@ -53,7 +52,7 @@ export default function formatPieEchartsData(obj) {
         name: '分布情况',
         type: 'pie',
         radius: ['30%', '76%'],
-        center: ['55%', '55%'],
+        center: ['65%', '55%'],
         data: seriesData,
         itemStyle: {
           emphasis: {

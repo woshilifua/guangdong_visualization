@@ -69,6 +69,12 @@ import format from '@/api/resource/format'
 
 import { getFirstStructure } from '@/utils/common'
 
+const STATUSNAME = {
+  Company: '企业',
+  Format: '客户',
+  Building: '楼宇'
+}
+
 const API = {
   Company: company,
   Building: building,
@@ -180,11 +186,11 @@ export default {
         let data = this.barData.data[this.activeKey]
         if (!data) return
         Object.assign(this.pieData, {
-          title: this.activeKey,
+          title: STATUSNAME[this.$route.name],
           data: data.structure ? data.structure : null
         })
         Object.assign(this.pieDataOne, {
-          title: this.activeKey,
+          title: STATUSNAME[this.$route.name],
           data: data.structureOne ? data.structureOne : null
         })
       }

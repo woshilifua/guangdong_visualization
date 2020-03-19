@@ -54,7 +54,7 @@ export default function initOption(obj) {
     },
     legend: {
       formatter: (name) => {
-        return `${name}分布情况`
+        return `${name}区域内分布数量`
       },
       data: [],
       left: 'center'
@@ -73,12 +73,13 @@ export default function initOption(obj) {
     },
 
     series: [
-      Object.assign({}, dataTmp, { data: values })
+      Object.assign({}, dataTmp, { data: values, name: obj.dataName ? obj.dataName : '' })
     ]
   }
 
   // 有相关数据的时候
   if (correlationValues.length !== 0) {
+    option.legend.data.push(obj.dataName)
     option.legend.data.push(obj.correlationData.title)
     option.series.push(
       Object.assign({}, dataTmp, {
@@ -91,7 +92,7 @@ export default function initOption(obj) {
 
 
   // 数据多的时候添加 dataZoom
-  if (values.length > 4) {
+  if (values.length > 5) {
     option.dataZoom.push(
       {
         type: 'inside',

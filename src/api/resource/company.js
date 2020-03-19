@@ -38,6 +38,7 @@ export default {
         }
       }
     })
+    if (Object.keys(data).length === 0) return null
     return data
   },
 
@@ -48,27 +49,25 @@ export default {
         data[item[1]] = item[3]
       }
     })
+    if (Object.keys(data).length === 0) return null
     return data
   },
 
-  formatProvinceData: function () {
+
+  getProvinceData: function () {
     let data = {}
+    let count = 0
     provinceData.forEach(item => {
       let key = item[0]
+      count += Number(item[1])
       data[key] = {
-        total: item[2],
+        total: item[1],
         structure: this.getProvinceStructure(key),
         structureOne: this.getProvinceStructureOne(key)
       }
     })
-    return data
-  },
-
-  getProvinceData: function () {
-    return Promise.resolve({
-      title: `${this.region.name}企业总量: ${tranNumber(2378280)}`,
-      data: this.formatProvinceData()
-    })
+    let title = `${this.region.name}企业总量: ${tranNumber(count)}`
+    return Promise.resolve({ title, data })
   },
 
   getCityData: function () {

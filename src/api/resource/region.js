@@ -12,7 +12,7 @@ const SCENEKEYS = {
     title: '楼宇总量'
   },
   Format: {
-    key: 2,
+    key: 3,
     title: '客户总量'
   }
 }
@@ -41,7 +41,12 @@ export default {
     let count = 0
 
     provinceRegionData.forEach(item => {
-      let amount = Number(item[SCENEKEYS[this.scene].key])
+      let amount = 0
+      if (this.scene === 'Company') {
+        amount = item[SCENEKEYS[this.scene].key] + item[4]
+      } else {
+        amount = item[SCENEKEYS[this.scene].key]
+      }
       count += amount
       data[item[0]] = {
         total: amount
@@ -73,6 +78,7 @@ export default {
     }
     let data = {}
     let count = 0
+    let correlationData = null
     let SCENEKEYS = {
       Building: {
         key: 3,
@@ -86,6 +92,12 @@ export default {
         title: '客户总量'
       }
     }
+    if (this.scene !== 'Format') {
+      correlationData = {
+        title: this.industry,
+        data: {}
+      }
+    }
     Object.keys(cityData).forEach(key => {
       cityData[key].forEach(item => {
         let amount = Number(item[SCENEKEYS[this.scene].key])
@@ -97,10 +109,22 @@ export default {
         } else {
           data[item[0]].total += Number(item[SCENEKEYS[this.scene].key])
         }
+        if (this.scene !== 'Format') {
+          if (this.industry === item[1]) {
+            if (!correlationData.data[item[0]]) {
+              correlationData.data[item[0]] = {
+                total: Number(item[SCENEKEYS[this.scene].key])
+              }
+            } else {
+              correlationData.data[item[0]].total += Number(item[SCENEKEYS[this.scene].key])
+            }
+          }
+        }
       })
     })
+
     let title = `${this.region.name}${SCENEKEYS[this.scene].title}: ${tranNumber(count)}`
-    return Promise.resolve({ title, data })
+    return Promise.resolve({ title, data, correlationData })
   },
 
   getDistrictData: function () {

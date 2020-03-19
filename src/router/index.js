@@ -76,14 +76,14 @@ export const constantRoutes = [
         name: 'Format',
         component: () => import('@/views/resource/distribution'),
         meta: {
-          title: '业态分布', icon: 'table'
+          title: '服务业态分布', icon: 'table'
         }
       },
       {
         path: '/resources/building',
         name: 'Building',
         component: () => import('@/views/resource/distribution'),
-        meta: { title: '楼宇分布', icon: 'table' }
+        meta: { title: '集聚建筑分布', icon: 'table' }
       },
       {
         path: '/resources/income',

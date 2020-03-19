@@ -1,4 +1,4 @@
-import { cityData, provinceData, provinceSubdivisionData } from '@/data/resource/company'
+import { cityData, provinceData, provinceSubdivisionData } from '@/data/resource/building'
 import { tranNumber } from '@/utils/format'
 
 const regex = /^440.*/
