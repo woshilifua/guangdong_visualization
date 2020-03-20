@@ -42,9 +42,6 @@ export default {
   watch: {
     barData: {
       handler(obj) {
-        this.dataLoading = true
-        if (obj.data === null) return
-        this.dataLoading = false
         this.setOption(obj)
       },
       deep: true
@@ -53,10 +50,14 @@ export default {
 
   mounted() {
     this.initEcharts('echarts')
+    this.setOption(this.barData)
   },
 
   methods: {
     setOption(obj) {
+      this.dataLoading = true
+      if (obj.data === null) return
+      this.dataLoading = false
       let option = initOption(obj)
       this.echarts.clear()
       this.echarts.setOption(option)

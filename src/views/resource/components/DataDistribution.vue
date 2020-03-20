@@ -66,7 +66,7 @@ import Discription from './Discription'
 import company from '@/api/resource/company'
 import building from '@/api/resource/building'
 import format from '@/api/resource/format'
-
+import { dataZoom } from '@/utils/echarts/data-zoom-style'
 import { getFirstStructure } from '@/utils/common'
 
 const STATUSNAME = {
@@ -94,6 +94,7 @@ export default {
       barData: {
         title: null,
         data: null,
+        option: {},
         related: true // 是否是关联的 Echarts, false 的时候不需要监听 Echarts 的变化
       },
       pieData: {
@@ -171,12 +172,19 @@ export default {
        *
        * barData 数据的排序会在 bar component 里面进行
        */
+      this.setBarOption(scene)
       API[scene].getData(region).then(res => {
         Object.assign(this.barData, res)
         this.activeKey = getFirstStructure(res, 'structure').title
         this.$eventBus.$emit('active-bar', this.activeKey)
         this.setPieData()
       })
+    },
+
+    setBarOption(scene) {
+      if (scene === 'Format') {
+        Object.assign(this.barData.option, dataZoom)
+      }
     },
 
     setPieData() {

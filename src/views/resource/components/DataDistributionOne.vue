@@ -11,6 +11,7 @@
 <script>
 import BarEcharts from '@/components/Echarts/bar'
 import regionAPI from '@/api/resource/region'
+import { dataZoom } from '@/utils/echarts/data-zoom-style'
 
 const STATUSNAME = {
   Company: '企业',
@@ -40,7 +41,8 @@ export default {
         data: null,
         dataName: setDataName(this.$route.name),
         correlationData: null,
-        related: false
+        related: false,
+        option: Object.assign({}, dataZoom)
       },
       barStyle: {
         height: '400px'

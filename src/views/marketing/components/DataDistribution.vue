@@ -54,6 +54,7 @@ import ProductSuggestions from './ProductSuggestion'
 import Checklist from './Checklist'
 import { getFirstCity } from '@/utils/common'
 import marketing from '@/api/marketing/data'
+import { dataZoom } from '@/utils/echarts/data-zoom-style'
 
 export default {
   components: {
@@ -74,7 +75,8 @@ export default {
       barData: {
         title: '',
         data: null,
-        related: true
+        related: true,
+        option: Object.assign({}, dataZoom)
       },
       barStyle: {
         height: '300px'
