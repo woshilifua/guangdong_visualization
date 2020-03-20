@@ -45,6 +45,7 @@
               :pieStyle="pieStyle"
               v-if="activeLabel === 'first'"
             />
+            <Discription class="mt-20" :activeKey="activeKey" />
           </el-tab-pane>
           <el-tab-pane :label="`${activeKey}行业构成`" name="second">
             <PieEcharts
