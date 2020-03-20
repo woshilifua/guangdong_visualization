@@ -12,7 +12,6 @@ const dataTmp = {
       }
     }
   },
-  barWidth: 30,
   barCategoryGap: 60,
   barGap: 0,
   data: null
@@ -46,7 +45,7 @@ export default function initOption(obj) {
 
   let option = {
     title: {
-      text: obj.title
+      text: obj.title,
     },
     dataZoom: [],
     xAxis: {
@@ -71,12 +70,15 @@ export default function initOption(obj) {
       trigger: 'item',
       formatter: '{b}: {c}'
     },
-
+    barWidth: 30,
     series: [
       Object.assign({}, dataTmp, { data: values, name: obj.dataName ? obj.dataName : '' })
     ]
   }
 
+  if (obj.option) {
+    Object.assign(option, obj.option)
+  }
   // 有相关数据的时候
   if (correlationValues.length !== 0) {
     option.legend.data.push(obj.dataName)
@@ -90,22 +92,5 @@ export default function initOption(obj) {
     )
   }
 
-
-  // 数据多的时候添加 dataZoom
-  if (values.length > 5) {
-    option.dataZoom.push(
-      {
-        type: 'inside',
-        show: true,
-        realtime: false,
-        start: 0,
-        end: 50,
-        zoomLock: true,
-        zoomOnMouseWheel: false,
-        moveOnMouseMove: true,
-        moveOnMouseWheel: true
-      }
-    )
-  }
   return option
 }
