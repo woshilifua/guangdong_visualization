@@ -38,7 +38,7 @@ export default {
             ...dataZoom,
             legend: {
               show: true,
-              left: 'right'
+              left: 'center'
             }
           }
         )

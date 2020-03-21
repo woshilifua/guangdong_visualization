@@ -51,10 +51,23 @@ export default {
     return data
   },
 
+  formatCorrelationProvinceData: function () {
+    let title = ''
+    let data = {}
+    provinceData.forEach(item => {
+      let key = item[0]
+      data[key] = {
+        total: item[2],
+      }
+    })
+    return { title, data }
+  },
+
   getProvinceData: function () {
     return Promise.resolve({
       title: this.setTitle(40854),
-      data: this.formatProvinceData()
+      data: this.formatProvinceData(),
+      // correlationData: this.formatCorrelationProvinceData()
     })
   },
 

@@ -12,8 +12,6 @@ const dataTmp = {
       }
     }
   },
-  barCategoryGap: 60,
-  barGap: 0,
   data: null
 }
 
@@ -48,22 +46,26 @@ export default function initOption(obj) {
       text: obj.title,
     },
     dataZoom: [],
-    xAxis: {
+    xAxis: [{
       data: dataAxis
-    },
-    yAxis: {
-      nameLocation: 'end',
-      nameTextStyle: {
-        color: '#000',
-        lineHeight: 32,
-        padding: [0, 0, 0, -16]
+    }],
+    toolbox: {
+      show: true,
+      feature: {
+        magicType: { show: true, type: ['line', 'bar'] },
+        saveAsImage: { show: true }
       }
     },
+    yAxis: [{
+      type: 'value'
+    }],
+    calculable: true,
     tooltip: {
-      trigger: 'item',
-      formatter: '{b}: {c}'
+      trigger: 'axis',
     },
-    barWidth: 30,
+    barWidth: '60%',
+    barCategoryGap: '-100%',
+    barGap: '-100%',
     series: []
   }
 
@@ -85,7 +87,19 @@ export default function initOption(obj) {
       Object.assign({}, dataTmp, {
         data: correlationValues,
         name: obj.correlationDataName ? obj.correlationDataName : '',
-        itemStyle: { color: '#fdbf36' }
+        itemStyle: {
+          color: '#fdbf36'
+        },
+        label: {
+          normal: {
+            show: true,
+            position: 'top',
+            color: '#fdbf36',
+            formatter: (a) => {
+              return tranNumber(a.value)
+            }
+          }
+        }
       })
     )
   }

@@ -2,7 +2,7 @@ export const dataZoom = {
   dataZoom: [
     {
       start: 0,
-      end: 50,
+      end: 30,
       height: 15,
       handleSize: '80%',
       handleStyle: {
