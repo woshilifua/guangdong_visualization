@@ -1,4 +1,4 @@
-import { provinceRegionData, industrialDistribution } from '@/data/resource/region'
+import { provinceRegionData, industrialDistribution, industrialDistributionByFormat } from '@/data/resource/region'
 import { tranNumber } from '@/utils/format'
 import { cityData } from '@/data/resource/company'
 
@@ -18,8 +18,8 @@ const SCENEKEYS = {
   Format: {
     key: 3,
     title: '重点行业农商客户分布',
-    dataName: '',
-    correlationDataName: ''
+    dataName: '重点行业农商客户分布情况',
+    correlationDataName: '分布情况'
   }
 }
 
@@ -58,6 +58,25 @@ export default {
         total: amount
       }
     })
+    // 业态分布场景 
+    if (this.scene === 'Format') {
+      correlationData = {
+        title: this.industry,
+        data: {}
+      }
+      industrialDistributionByFormat.forEach(item => {
+        if (item[1] === this.industry) {
+          let key = item[0]
+          if (!correlationData.data[key]) {
+            correlationData.data[key] = {
+              total: Number(item[2])
+            }
+          } else {
+            correlationData.data[key].total += Number(item[2])
+          }
+        }
+      })
+    }
 
     // 除去业态分布的场景
     if (this.scene !== 'Format' && industrialDistribution[this.industry]) {
