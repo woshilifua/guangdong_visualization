@@ -52,9 +52,7 @@ export default function initOption(obj) {
       data: dataAxis
     },
     legend: {
-      formatter: (name) => {
-        return `${name}区域内分布数量`
-      },
+      show: false,
       data: [],
       left: 'center'
     },
@@ -72,7 +70,7 @@ export default function initOption(obj) {
     },
     barWidth: 30,
     series: [
-      Object.assign({}, dataTmp, { data: values, name: obj.dataName ? obj.dataName : '' })
+      Object.assign({}, dataTmp, { data: values })
     ]
   }
 
@@ -81,13 +79,10 @@ export default function initOption(obj) {
   }
   // 有相关数据的时候
   if (correlationValues.length !== 0) {
-    option.legend.data.push(obj.dataName)
-    option.legend.data.push(obj.correlationData.title)
     option.series.push(
       Object.assign({}, dataTmp, {
-        name: obj.correlationData.title,
-        itemStyle: { color: '#fdbf36' },
-        data: correlationValues
+        data: correlationValues,
+        itemStyle: { color: '#fdbf36' }
       })
     )
   }

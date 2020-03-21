@@ -5,6 +5,7 @@ import { tranNumber } from '@/utils/format'
 const regex = /^440.*/
 
 const TITLE = '农商客户总量'
+const STRUCTURETITLE = '入驻农商客户数量'
 
 export default {
 
@@ -48,7 +49,7 @@ export default {
     let data = {}
     provinceSubdivisionData.forEach(item => {
       if (item[0] === key) {
-        data[item[1]] = item[3]
+        data[this.setStructureKey(item[1])] = item[3]
       }
     })
     if (Object.keys(data).length === 0) return null
@@ -78,19 +79,20 @@ export default {
     Object.keys(cityData).forEach(key => {
       cityData[key].forEach(item => {
         let amount = Number(item[4])
+        let structureKey = this.setStructureKey(item[2])
         count += amount
         if (!data[item[1]]) {
           data[item[1]] = {
             total: amount,
             structure: {}
           }
-          data[item[1]].structure[item[2]] = amount
+          data[item[1]].structure[structureKey] = amount
         } else {
           data[item[1]].total += amount
-          if (!data[item[1]].structure[item[2]]) {
-            data[item[1]].structure[item[2]] = amount
+          if (!data[item[1]].structure[structureKey]) {
+            data[item[1]].structure[structureKey] = amount
           } else {
-            data[item[1]].structure[item[2]] += amount
+            data[item[1]].structure[structureKey] += amount
           }
         }
       })
@@ -108,18 +110,19 @@ export default {
     cityData[this.adcode].forEach(item => {
       let amount = Number(item[4])
       count += amount
+      let structureKey = this.setStructureKey(item[2])
       if (!data[item[1]]) {
         data[item[1]] = {
           total: amount,
           structure: {}
         }
-        data[item[1]].structure[item[2]] = amount
+        data[item[1]].structure[structureKey] = amount
       } else {
         data[item[1]].total += amount
-        if (!data[item[1]].structure[item[2]]) {
-          data[item[1]].structure[item[2]] = amount
+        if (!data[item[1]].structure[structureKey]) {
+          data[item[1]].structure[structureKey] = amount
         } else {
-          data[item[1]].structure[item[2]] += amount
+          data[item[1]].structure[structureKey] += amount
         }
       }
     })
@@ -129,5 +132,9 @@ export default {
 
   setTitle: function (count) {
     return `${this.region.name}${TITLE}: ${tranNumber(count)}`
+  },
+
+  setStructureKey: function (name) {
+    return `${name}${STRUCTURETITLE}`
   }
 }

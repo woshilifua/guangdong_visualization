@@ -23,7 +23,7 @@ export default function formatPieEchartsData(obj) {
     legendData.push(key)
   })
 
-  return {
+  let option = {
     title: {
       left: 'center'
     },
@@ -31,10 +31,8 @@ export default function formatPieEchartsData(obj) {
       orient: 'vertical',
       left: 'left',
       top: 'middle',
+      show: true,
       data: legendData,
-      formatter: (value) => {
-        return `${value}${obj.title}数量`
-      }
     },
     tooltip: {
       position: 'right',
@@ -52,7 +50,7 @@ export default function formatPieEchartsData(obj) {
         name: '分布情况',
         type: 'pie',
         radius: ['30%', '76%'],
-        center: ['65%', '55%'],
+        center: ['50%', '55%'],
         data: seriesData,
         itemStyle: {
           emphasis: {
@@ -64,4 +62,5 @@ export default function formatPieEchartsData(obj) {
       }
     ]
   }
+  return option
 }

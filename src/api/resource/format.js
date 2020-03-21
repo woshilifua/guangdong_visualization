@@ -3,6 +3,7 @@ import { tranNumber } from '@/utils/format'
 
 const regex = /^440.*/
 const TITLE = '重点行业农行客户数量'
+const STRUCTURETITLE = '农商客户数量'
 
 export default {
 
@@ -32,19 +33,20 @@ export default {
     let count = 0
     provinceData.forEach(item => {
       let amount = Number(item[2])
+      let structureKey = this.setStructureKey(item[1])
       count += amount
       if (!data[item[0]]) {
         data[item[0]] = {
           total: Number(item[2]),
           structure: {}
         }
-        data[item[0]].structure[item[1]] = amount
+        data[item[0]].structure[structureKey] = amount
       } else {
         data[item[0]].total += Number(item[2])
-        if (!data[item[0]].structure[item[1]]) {
-          data[item[0]].structure[item[1]] = amount
+        if (!data[item[0]].structure[structureKey]) {
+          data[item[0]].structure[structureKey] = amount
         } else {
-          data[item[0]].structure[item[1]] += amount
+          data[item[0]].structure[structureKey] += amount
         }
       }
     })
@@ -58,18 +60,19 @@ export default {
     cityData.forEach(item => {
       let amount = Number(item[4])
       count += amount
+      let structureKey = this.setStructureKey(item[3])
       if (!data[item[2]]) {
         data[item[2]] = {
           total: Number(item[4]),
           structure: {}
         }
-        data[item[2]].structure[item[3]] = amount
+        data[item[2]].structure[structureKey] = amount
       } else {
         data[item[2]].total += Number(item[4])
-        if (!data[item[2]].structure[item[3]]) {
-          data[item[2]].structure[item[3]] = amount
+        if (!data[item[2]].structure[structureKey]) {
+          data[item[2]].structure[structureKey] = amount
         } else {
-          data[item[2]].structure[item[3]] += amount
+          data[item[2]].structure[structureKey] += amount
         }
       }
     })
@@ -83,5 +86,9 @@ export default {
 
   setTitle: function (count) {
     return `${this.region.name}${TITLE}: ${tranNumber(count)}`
+  },
+
+  setStructureKey: function (name) {
+    return `${name}${STRUCTURETITLE}`
   }
 }
