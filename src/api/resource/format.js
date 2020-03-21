@@ -2,6 +2,7 @@ import { provinceData, cityData } from '@/data/resource/format'
 import { tranNumber } from '@/utils/format'
 
 const regex = /^440.*/
+const TITLE = '重点行业农行客户数量'
 
 export default {
 
@@ -47,7 +48,7 @@ export default {
         }
       }
     })
-    let title = `${this.region.name}客户总量: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data })
   },
 
@@ -72,12 +73,15 @@ export default {
         }
       }
     })
-    let title = `${this.region.name}客户总量: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data })
   },
 
   getDistrictData: function () {
     return Promise.resolve({ title: '', data: null })
-  }
+  },
 
+  setTitle: function (count) {
+    return `${this.region.name}${TITLE}: ${tranNumber(count)}`
+  }
 }

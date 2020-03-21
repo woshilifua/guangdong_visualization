@@ -5,15 +5,15 @@ import { cityData } from '@/data/resource/company'
 const SCENEKEYS = {
   Company: {
     key: 1,
-    title: '企业总量'
+    title: '农商客户总量'
   },
   Building: {
     key: 2,
-    title: '楼宇总量'
+    title: '农商客户入驻建筑物数量'
   },
   Format: {
     key: 3,
-    title: '客户总量'
+    title: '重点行业农商客户分布'
   }
 }
 
@@ -68,7 +68,7 @@ export default {
       })
     }
 
-    let title = `${this.region.name}${SCENEKEYS[this.scene].title}: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data, correlationData })
   },
 
@@ -123,12 +123,15 @@ export default {
       })
     })
 
-    let title = `${this.region.name}${SCENEKEYS[this.scene].title}: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data, correlationData })
   },
 
   getDistrictData: function () {
 
-  }
+  },
 
+  setTitle: function (count) {
+    return `${this.region.name}${SCENEKEYS[this.scene].title}: ${tranNumber(count)}`
+  }
 }

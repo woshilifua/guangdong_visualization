@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '广东省农商数据',
+  title: '广东省农商客户数据',
 
   /**
    * @type {boolean} true | false

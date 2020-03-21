@@ -4,6 +4,8 @@ import { tranNumber } from '@/utils/format'
 
 const regex = /^440.*/
 
+const TITLE = '农商客户总量'
+
 export default {
 
   getData: function (region) {
@@ -66,7 +68,7 @@ export default {
         structureOne: this.getProvinceStructureOne(key)
       }
     })
-    let title = `${this.region.name}企业总量: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data })
   },
 
@@ -93,7 +95,7 @@ export default {
         }
       })
     })
-    let title = `${this.region.name}企业总量: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data })
   },
 
@@ -121,8 +123,11 @@ export default {
         }
       }
     })
-    let title = `${this.region.name}企业总量: ${tranNumber(count)}`
+    let title = this.setTitle(count)
     return Promise.resolve({ title, data })
-  }
+  },
 
+  setTitle: function (count) {
+    return `${this.region.name}${TITLE}: ${tranNumber(count)}`
+  }
 }
