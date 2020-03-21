@@ -38,6 +38,10 @@ export const marketingDataKeys = {
 
 export const marketingStructureData = {
   '广州市': {
+    '网吧': {
+      '非连锁': 899,
+      '连锁': 156
+    },
     '餐饮': {
       '连锁': 11921,
       '非连锁': 60126
@@ -58,6 +62,10 @@ export const marketingStructureData = {
     }
   },
   '深圳市': {
+    '网吧': {
+      '非连锁': 1534,
+      '连锁': 339
+    },
     '餐饮': {
       '连锁': 10010,
       '非连锁': 48974

@@ -14,34 +14,7 @@
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="21" class="mt-20">
-        <BarEcharts :barData="barData" :region="region" :barStyle="barStyle" />
-      </el-col>
-    </el-row>
-    <el-row type="flex" justify="center">
-      <el-col :span="21">
-        <el-divider content-position="left"
-          >{{ this.city }}客户细分构成及建议产品</el-divider
-        >
-      </el-col>
-    </el-row>
-    <el-row type="flex" justify="center" align="middle" :gutter="20">
-      <el-col :span="8">
-        <PieEcharts :pieData="pieData" :pieStyle="pieStyle" />
-      </el-col>
-      <el-col :span="13">
-        <ProductSuggestions />
-      </el-col>
-    </el-row>
-
-    <el-row type="flex" justify="center" class="mt-20">
-      <el-col :span="21">
-        <el-divider content-position="left">{{ this.city }}客户清单</el-divider>
-      </el-col>
-    </el-row>
-
-    <el-row type="flex" justify="center" class="mt-10">
-      <el-col :span="21">
-        <Checklist :city="city" :type="type" />
+        <BarEcharts :barData="barData" :barStyle="barStyle" />
       </el-col>
     </el-row>
   </div>
@@ -49,29 +22,23 @@
 
 <script>
 import BarEcharts from '@/components/Echarts/bar'
-import PieEcharts from '@/components/Echarts/pie'
-import ProductSuggestions from './ProductSuggestion'
-import Checklist from './Checklist'
-import { getFirstCity } from '@/utils/common'
 import marketing from '@/api/marketing/data'
+
 import { dataZoom } from '@/utils/echarts/data-zoom-style'
 
 export default {
   components: {
-    BarEcharts,
-    PieEcharts,
-    ProductSuggestions,
-    Checklist
+    BarEcharts
+  },
+
+  props: {
+    type: {
+      type: String
+    }
   },
 
   data() {
     return {
-      region: {
-        level: 'province',
-        adcode: 440000,
-        name: '广东省',
-        center: [113.280637, 23.125178]
-      },
       barData: {
         title: '',
         data: null,
@@ -80,66 +47,29 @@ export default {
       },
       barStyle: {
         height: '300px'
-      },
-      pieData: {
-        title: '',
-        data: null
-      },
-      pieStyle: {
-        height: '180px'
-      },
-      city: '广州市',
-      type: '餐饮'
-    }
-  },
-
-  computed: {
-    conditions() {
-      return [this.city, this.type]
+      }
     }
   },
 
   watch: {
-    conditions: {
-      handler() {
-        this.getMarketingStructureData(this.city, this.type)
-      },
-      immediate: true
+    type: {
+      handler(val) {
+        this.getMarketingData(val)
+      }
     }
   },
 
   mounted() {
-    this.getMarketingData(this.region, '餐饮')
-
-    this.$eventBus.$on('change-type', type => {
-      this.type = type
-      this.getMarketingData(this.region, type)
-    })
-
-    this.$eventBus.$on('active-bar', city => {
-      this.city = city
-    })
+    this.getMarketingData(this.type)
   },
 
   methods: {
-    getMarketingData(region, type) {
-      marketing.getData(region, type).then(res => {
+    getMarketingData(type) {
+      marketing.getData(type).then(res => {
         // 柱状图显示的数据
         Object.assign(this.barData, res)
-        this.city = getFirstCity(res)
-        this.type = type
-      })
-    },
-
-    getMarketingStructureData(city, type) {
-      marketing.getStructData(city, type).then(res => {
-        Object.assign(this.pieData, res)
       })
     }
-  },
-
-  beforeDestroy() {
-    this.$eventBus.$off('change-type')
   }
 }
 </script>

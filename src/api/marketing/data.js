@@ -1,7 +1,7 @@
 import { marketingData, marketingDataKeys, marketingStructureData } from '@/data/marketing/data'
 export default {
 
-  getData: function (region, type) {
+  getData: function (type) {
     let data = {}
     let count = 0
     marketingData.forEach(item => {
@@ -11,7 +11,7 @@ export default {
         total: amount
       }
     })
-    let title = `${region.name}客户总量: ${count}`
+    let title = `广东省客户总量: ${count}`
     return Promise.resolve({ title, data })
   },
 

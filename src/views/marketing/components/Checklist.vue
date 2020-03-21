@@ -2,21 +2,21 @@
   <div
     element-loading-spinner="null"
     element-loading-text="暂无该分类数据"
-    v-loading="dataLoading"
+    v-loading="type !== '网吧' || city !== '广州市'"
   >
     <el-table
       :data="checklist"
       height="360"
       style="width: 100%; font-size: 12px"
     >
-      <el-table-column prop="district" sortable label="区域" width="100px">
+      <el-table-column prop="district" sortable label="区域" width="140px">
       </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="location" label="地理位置"> </el-table-column>
-      <el-table-column prop="type" label="类型" width="100px">
-      </el-table-column>
-      <el-table-column prop="amount" label="房间数量" width="70px">
-      </el-table-column>
+      <!-- <el-table-column prop="type" label="类型" width="100px" v-if="type">
+      </el-table-column> -->
+      <!-- <el-table-column prop="amount" label="房间数量" width="70px">
+      </el-table-column> -->
       <el-table-column label="客户质量" width="80px" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.score" size="small" style="width: 50px;">
@@ -65,11 +65,8 @@ export default {
   methods: {
     getDemoList(city, type) {
       getDemoList(city, type).then(res => {
-        if (!res.data) {
-          this.dataLoading = true
-        } else {
-          this.checklist = res.data
-        }
+        if (!res.data) return
+        this.checklist = res.data
       })
     }
   },

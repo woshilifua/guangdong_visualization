@@ -64,7 +64,6 @@ export default function initOption(obj) {
       trigger: 'axis',
     },
     barWidth: '60%',
-    barCategoryGap: '-100%',
     barGap: '-100%',
     series: []
   }

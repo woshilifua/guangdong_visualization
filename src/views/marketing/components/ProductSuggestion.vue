@@ -5,6 +5,9 @@
       border
       stripe
       style="width: 100%; margin-top: 8px; font-size: 12px;"
+      element-loading-spinner="null"
+      element-loading-text="暂无该分类数据"
+      v-loading="type !== '网吧'"
     >
       <el-table-column label="建议产品" width="120px" align="center">
         <template slot-scope="scope">
@@ -27,6 +30,11 @@
 
 <script>
 export default {
+  props: {
+    type: {
+      type: String
+    }
+  },
   data() {
     return {
       tableData: [

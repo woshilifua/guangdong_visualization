@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       type: {
-        name: '餐饮'
+        name: '网吧'
       },
       types: [
         { name: '餐饮' },
