@@ -13,15 +13,6 @@ import BarEcharts from '@/components/Echarts/bar'
 import regionAPI from '@/api/resource/region'
 import { dataZoom } from '@/utils/echarts/data-zoom-style'
 
-const STATUSNAME = {
-  Company: '企业',
-  Format: '客户',
-  Building: '楼宇'
-}
-
-const setDataName = name => {
-  return `${STATUSNAME[name]}`
-}
 export default {
   props: {
     region: {
@@ -39,10 +30,18 @@ export default {
       barData: {
         title: null,
         data: null,
-        dataName: setDataName(this.$route.name),
         correlationData: null,
         related: false,
-        option: Object.assign({}, dataZoom)
+        option: Object.assign(
+          {},
+          {
+            ...dataZoom,
+            legend: {
+              show: true,
+              left: 'right'
+            }
+          }
+        )
       },
       barStyle: {
         height: '400px'

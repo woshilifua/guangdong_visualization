@@ -51,11 +51,6 @@ export default function initOption(obj) {
     xAxis: {
       data: dataAxis
     },
-    legend: {
-      show: false,
-      data: [],
-      left: 'center'
-    },
     yAxis: {
       nameLocation: 'end',
       nameTextStyle: {
@@ -69,19 +64,27 @@ export default function initOption(obj) {
       formatter: '{b}: {c}'
     },
     barWidth: 30,
-    series: [
-      Object.assign({}, dataTmp, { data: values })
-    ]
+    series: []
   }
 
   if (obj.option) {
     Object.assign(option, obj.option)
+  }
+
+  if (values.length !== 0) {
+    option.series.push(Object.assign({}, dataTmp,
+      {
+        data: values,
+        name: obj.dataName ? obj.dataName : ''
+      })
+    )
   }
   // 有相关数据的时候
   if (correlationValues.length !== 0) {
     option.series.push(
       Object.assign({}, dataTmp, {
         data: correlationValues,
+        name: obj.correlationDataName ? obj.correlationDataName : '',
         itemStyle: { color: '#fdbf36' }
       })
     )

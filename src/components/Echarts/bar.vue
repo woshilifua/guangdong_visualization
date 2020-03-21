@@ -29,6 +29,16 @@ export default {
       type: Object,
       required: false
     },
+    /*
+     * @barData 的结构
+     * @title  视图的标题
+     * @data   第一组数据
+     * @dataName 第一组数据的名称
+     * @correlationData 第二组数据
+     * @correlationDataName 第二组数据的名称
+     * @related 是否有关联的数据
+     * @option bar 的一些配置选项
+     */
     barData: {
       type: Object,
       required: true

@@ -70,7 +70,7 @@ export default {
       }
     })
     let title = this.setTitle(count)
-    return Promise.resolve({ title, data })
+    return Promise.resolve({ title, data})
   },
 
   getCityData: function () {
