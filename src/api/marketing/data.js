@@ -11,7 +11,7 @@ export default {
         total: amount
       }
     })
-    let title = `广东省客户总量: ${count}`
+    let title = `广东省${type}行业客户总量: ${count}`
     return Promise.resolve({ title, data })
   },
 
