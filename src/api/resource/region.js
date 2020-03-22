@@ -7,7 +7,7 @@ const SCENEKEYS = {
     key: 1,
     title: '农商客户总量',
     dataName: '农商客户分布情况',
-    correlationDataName: '内入驻农商客户'
+    correlationDataName: '内入驻农商客户分布情况'
   },
   Building: {
     key: 2,
@@ -19,7 +19,7 @@ const SCENEKEYS = {
     key: 3,
     title: '重点行业农商客户分布',
     dataName: '重点行业农商客户分布情况',
-    correlationDataName: '分布情况'
+    correlationDataName: '行业农商客户分布情况'
   }
 }
 

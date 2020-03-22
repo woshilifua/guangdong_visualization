@@ -83,7 +83,7 @@ export default {
         case 'warning':
           return '良好'
         default:
-          return '一般'
+          return '优秀'
       }
     }
   }

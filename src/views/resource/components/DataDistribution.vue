@@ -39,7 +39,7 @@
     <el-row v-if="$route.name === 'Company'">
       <el-col :span="24">
         <el-tabs v-model="activeLabel">
-          <el-tab-pane :label="`${activeKey}细分构成`" name="first">
+          <el-tab-pane :label="`${activeKey}入驻农商客户细分构成`" name="first">
             <PieEcharts
               :pieData="pieData"
               :pieStyle="pieStyle"
@@ -47,7 +47,10 @@
             />
             <Discription class="mt-20" :activeKey="activeKey" />
           </el-tab-pane>
-          <el-tab-pane :label="`${activeKey}行业构成`" name="second">
+          <el-tab-pane
+            :label="`${activeKey}入驻农商客户行业构成`"
+            name="second"
+          >
             <PieEcharts
               :pieData="pieDataOne"
               :pieStyle="pieStyle"
