@@ -97,22 +97,27 @@ export const constantRoutes = [
   {
     path: '/marketing',
     component: Layout,
-    redirect: '/marketing/expand',
     name: 'Marketing',
+    redirect: '/marketing/overview',
     meta: { title: '营销拓展', icon: 'example' },
-    children: [
-      {
-        path: '/marketing/expand',
-        name: 'Expand',
-        component: () => import('@/views/marketing/expand'),
-        meta: { title: '业态类型', icon: 'table' }
-      },
-      {
-        path: 'theme',
-        name: 'Theme',
-        component: () => import('@/views/marketing/theme'),
-        meta: { title: '主题活动', icon: 'table' }
-      }
+    children: [{
+      path: '/marketing/overview',
+      name: 'Expand',
+      component: () => import('@/views/marketing/overview'),
+      meta: { title: '客户概况', icon: 'table' }
+    },
+    {
+      path: '/marketing/expand',
+      name: 'Expand',
+      component: () => import('@/views/marketing/expand'),
+      meta: { title: '业态类型', icon: 'table' }
+    },
+    {
+      path: 'theme',
+      name: 'Theme',
+      component: () => import('@/views/marketing/theme'),
+      meta: { title: '主题活动', icon: 'table' }
+    }
     ]
   },
 
