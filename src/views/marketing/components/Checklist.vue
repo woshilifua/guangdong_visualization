@@ -49,8 +49,7 @@ export default {
       required: true
     },
     type: {
-      type: String,
-      required: true
+      type: String
     }
   },
 

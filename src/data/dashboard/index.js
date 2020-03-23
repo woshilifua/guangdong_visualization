@@ -1,77 +1,80 @@
-export const treeMapData = {
-  title: '广东省农商客户规模分布视图',
-  data: [
-    {
-      name: '零星场景',
-      value: 10,
-      itemStyle: {
-        color: '#ea6b57'
-      },
-      children: [
+const dataTmp = {
+  name: '',
+  value: 20,
+  itemStyle: {
+    color: '#ea6b57'
+  },
+}
+const getData = () => {
+  let result = {}
+  let data = []
+  treeData.forEach(item => {
+    const key = item[0]
+    if (!result[key]) {
+      result[key] = { ...dataTmp }
+      result[key].name = key
+      result[key]['children'] = [
         {
-          name: '镇乡村 12.72万',
-          value: 3
-        },
-        {
-          name: '城市 27.67万',
-          value: 6
+          name: item[1],
+          value: item[2]
         }
       ]
-    },
-    {
-      name: '聚集场景',
-      value: 20,
-      children: [
-        {
-          name: '写字楼 95.13万',
-          value: 20
-        },
-        {
-          name: '园区 54.25万',
-          value: 10
-        },
-        {
-          name: '商业综合体 32.80万',
-          value: 6
-        },
-        {
-          name: '专业市场 55.63万',
-          value: 11
-        }
-      ]
+    } else {
+      result[key]['children'].push({
+        name: item[1],
+        value: item[2]
+      })
     }
-  ]
+  })
+  Object.keys(result).forEach(item => {
+    data.push(result[item])
+  })
+  return data
 }
 
-export const barData = {
-  option: {
-    title: {
-      text: '广东省农商客户价值分布图',
-      left: 'center'
-    },
-    barWidth: 80,
-    yAxis: {
-      show: false
-    }
+const treeData = [
+  ['商铺', '网吧', '10240'],
+  ['商铺', '药店', '15169'],
+  ['商铺', '餐饮', '42655']
+]
+export const data = [
+  {
+    name: '写字楼',
+    list: [
+      ['写字楼', '租赁和商务服务业', '192208', '160px'],
+      ['写字楼', '房地产业', '30360', '120px'],
+      ['写字楼', '科学研究和技术服务业', '9987', '100px'],
+      ['写字楼', '建筑业', '43527', '140px'],
+      ['写字楼', '文化、体育和娱乐业', '18872', '100px'],
+    ],
   },
-  data: {
-    写字楼: {
-      total: 111123000000
-    },
-    园区: {
-      total: 31123000000
-    },
-    专业市场: {
-      total: 221123000000
-    },
-    商业综合体: {
-      total: 121123000000
-    },
-    城市: {
-      total: 31123000000
-    },
-    镇乡村: {
-      total: 14123000000
-    }
+  {
+    name: '园区',
+    list: [
+      ['园区', '租赁和商务服务业', '53287', '160px'],
+      ['园区', '住宿和餐饮业', '46647', '140px'],
+      ['园区', '建筑业', '17371', '120px'],
+      ['园区', '科学研究和技术服务业', '5846', '100px'],
+      ['园区', '房地产业', '9822', '100px']
+    ]
+  },
+  {
+    name: '专业市场',
+    list: [
+      ['专业市场', '批发和零售业', '481511', '200px'],
+      ['专业市场', '居民服务、修理和其他服务业', '10599', '120px'],
+      ['专业市场', '农、林、牧、渔业', '4211', '100px'],
+    ]
+  },
+  {
+    name: '商业综合体',
+    list: [
+      ['商业综合体', '批发和零售业', '207042', '200px'],
+      ['商业综合体', '住宿和餐饮业', '41924', '120px']
+    ]
   }
+]
+
+export const treeMapData = {
+  data: getData()
 }

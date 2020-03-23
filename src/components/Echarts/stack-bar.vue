@@ -2,47 +2,59 @@
   <div>
     <div
       :ref="'echarts'"
-      style="height: 420px;"
       element-loading-spinner="null"
       element-loading-text="暂无该分类数据"
       v-loading="dataLoading"
-      :style="treeMapStyle"
+      :style="barStyle"
     ></div>
   </div>
 </template>
 
 <script>
 import mixins from './mixins/'
-import initOption from '@/utils/echarts/tree-map'
+import initOption from '@/utils/echarts/stack-bar'
 
 export default {
   mixins: [mixins],
 
   data() {
     return {
-      dataLoading: false
+      dataLoading: true
     }
   },
 
   props: {
-    treeMapData: {
+    barData: {
       type: Object,
       required: false
     },
-    treeMapStyle: {
+    barStyle: {
       type: Object,
-      required: false
+      required: true
+    }
+  },
+
+  watch: {
+    barData: {
+      handler(obj) {
+        this.setOption(obj)
+      },
+      deep: true
     }
   },
 
   mounted() {
     this.initEcharts('echarts')
-    this.setOption(this.treeMapData)
+    this.setOption(this.barData)
   },
 
   methods: {
     setOption(obj) {
+      this.dataLoading = true
+      if (obj.data === null) return
+      this.dataLoading = false
       let option = initOption(obj)
+      this.echarts.clear()
       this.echarts.setOption(option)
     }
   }
