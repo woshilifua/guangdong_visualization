@@ -1,11 +1,16 @@
+import { tranNumber } from '@/utils/format'
+
 export default function (obj) {
   return {
     title: {
-      text: obj.title,
-      left: 'center'
+      show: false,
+      left: 'center',
     },
     series: [{
       type: 'treemap',
+      top: 0,
+      left: 0,
+      right: 0,
       nodeClick: false,
       roam: false,
       breadcrumb: {
@@ -13,7 +18,11 @@ export default function (obj) {
       },
       label: {
         show: true,
-        formatter: '{b}'
+        fontSize: '14',
+        fontWeight: '600',
+        formatter: (obj) => {
+          return `${obj.name}:  ${tranNumber(obj.value)}`
+        }
       },
       itemStyle: {
         borderColor: '#fff'
@@ -35,8 +44,7 @@ export default function (obj) {
             gapWidth: 1,
           },
           upperLabel: {
-            show: true,
-            height: 30,
+            show: false,
             color: '#000',
             fontWeight: 600,
             fontSize: 14
@@ -49,7 +57,7 @@ export default function (obj) {
               color: '#000',
             }
           }
-        },
+        }
       ],
       data: obj.data
     }]

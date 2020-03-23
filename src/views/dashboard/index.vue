@@ -3,7 +3,7 @@
     style="background-color: #FFF; border-top: 1px solid #eee; padding-bottom: 30px;"
   >
     <p class="title">广东省农商客户概况</p>
-    <el-row type="flex" justify="center" align="top">
+    <el-row type="flex" justify="center" align="top" :gutter="10">
       <el-col :span="17">
         <el-row :gutter="10">
           <el-col :span="6" v-for="item in items" v-bind:key="item.name">
@@ -36,9 +36,20 @@
         </el-row>
       </el-col>
       <el-col :span="6">
+        <el-card
+          :body-style="{
+            padding: '8px',
+            'font-weight': '500',
+            'font-size': '14px',
+            'text-align': 'center'
+          }"
+          shadow="never"
+          >商铺</el-card
+        >
         <TreeMapEcharts
           :treeMapData="treeMapData"
           :treeMapStyle="treeMapStyle"
+          class="mt-8"
         />
       </el-col>
     </el-row>
@@ -111,7 +122,7 @@ export default {
 .item {
   position: relative;
   height: 120px;
-  font-size: 12px;
+  font-size: 13px;
   background-color: #4f8df7;
   color: #fff;
   padding: 8px;
