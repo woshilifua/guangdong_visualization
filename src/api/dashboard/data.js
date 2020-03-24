@@ -40,6 +40,7 @@ export default {
         }
       })
     }
+    result.sort((a, b) => { return b.value - a.value })
     return result
   }
 }
