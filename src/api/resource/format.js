@@ -2,7 +2,7 @@ import { provinceData, cityData } from '@/data/resource/format'
 import { tranNumber } from '@/utils/format'
 
 const regex = /^440.*/
-const TITLE = '重点行业农行客户数量'
+const TITLE = '重点行业农商客户数量'
 const STRUCTURETITLE = '农商客户数量'
 
 export default {
