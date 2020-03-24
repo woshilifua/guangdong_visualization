@@ -1,9 +1,12 @@
 <template>
   <el-row :gutter="10" type="flex" justify="start" align="middle">
-    <el-col :span="6">
+    <el-col :span="6" v-if="regionLevels.includes('province')">
       <el-tag style="width: 100%;" @click="backToProvince()">广东省</el-tag>
     </el-col>
-    <el-col :span="9">
+    <el-col
+      :span="!regionLevels.includes('district') ? 12 : 9"
+      v-if="regionLevels.includes('city')"
+    >
       <el-select
         v-model="city"
         value-key="adcode"
@@ -21,7 +24,7 @@
         </el-option>
       </el-select>
     </el-col>
-    <el-col :span="9">
+    <el-col :span="9" v-if="regionLevels.includes('district')">
       <el-select
         v-model="district"
         value-key="adcode"
@@ -50,6 +53,10 @@ export default {
     region: {
       type: Object,
       required: true
+    },
+    regionLevels: {
+      type: Array,
+      required: false
     }
   },
 
@@ -100,6 +107,7 @@ export default {
 
     handleRegionSelectorChange(region) {
       this.$eventBus.$emit('change-region', {
+        name: region.name,
         adcode: Number(region.adcode),
         level: region.level
       })
@@ -107,6 +115,7 @@ export default {
 
     backToProvince() {
       this.$eventBus.$emit('change-region', {
+        name: '广东省',
         adcode: 440000,
         level: 'province'
       })

@@ -7,7 +7,7 @@
       <el-row :gutter="20">
         <el-col :span="10">
           <el-card shadow="never">
-            <Region-Selector :region="region" />
+            <Region-Selector :region="region" :regionLevels="regionLevels" />
             <Map :region="region" class="mt-20" ref="left" />
           </el-card>
         </el-col>
@@ -44,6 +44,7 @@ export default {
 
   data() {
     return {
+      regionLevels: ['province', 'city', 'district'],
       region: {
         level: 'province',
         adcode: 440000,
