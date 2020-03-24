@@ -79,6 +79,8 @@ const STATUSNAME = {
   Building: '楼宇'
 }
 
+// TODO 建筑细分加上客户数量
+
 const API = {
   Company: company,
   Building: building,

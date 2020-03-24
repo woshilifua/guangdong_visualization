@@ -46,30 +46,30 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
-    children: [{
-      path: '/home',
-      name: '广东省农商数据',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
-    }]
+    redirect: '/resources/overview'
   },
 
 
   {
     path: '/resources',
     component: Layout,
-    redirect: '/resources/company',
+    redirect: '/resources/overview',
     name: 'Resources',
     meta: { title: '资源分布', icon: 'example' },
     children: [
       {
-        path: '/resources/company',
-        name: 'Company',
-        component: () => import('@/views/resource/distribution'),
+        path: '/resources/overview',
+        name: 'Overview',
+        component: () => import('@/views/dashboard/index'),
         meta: {
           title: '企业分布', icon: 'table'
         }
+      },
+      {
+        path: '/resources/company',
+        name: 'Company',
+        component: () => import('@/views/resource/distribution'),
+        meta: { title: '集聚建筑分布', icon: 'table' }
       },
       {
         path: '/resources/format',
@@ -78,12 +78,6 @@ export const constantRoutes = [
         meta: {
           title: '服务业态分布', icon: 'table'
         }
-      },
-      {
-        path: '/resources/building',
-        name: 'Building',
-        component: () => import('@/views/resource/distribution'),
-        meta: { title: '集聚建筑分布', icon: 'table' }
       },
       {
         path: '/resources/income',

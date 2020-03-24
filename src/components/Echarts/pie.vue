@@ -54,6 +54,7 @@ export default {
       } else {
         this.dataLoading = false
         let option = initOption(obj)
+        this.echarts.clear()
         this.echarts.setOption(option)
       }
     }

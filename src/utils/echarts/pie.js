@@ -13,15 +13,56 @@ const echartsThemeColors = [
 export default function formatPieEchartsData(obj) {
 
   let seriesData = []
+  let seriesDataOne = []
   let legendData = []
   Object.keys(obj.data).forEach((key, index) => {
-    seriesData.push({
-      name: key,
-      value: obj.data[key],
-      itemStyle: { color: echartsThemeColors[index] }
-    })
+    if (typeof obj.data[key] === 'object') {
+      seriesData.push({
+        name: key,
+        value: obj.data[key][1],
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+      seriesDataOne.push({
+        name: obj.data[key][0],
+        value: obj.data[key][1],
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+    } else {
+      seriesDataOne = []
+      seriesData.push({
+        name: key,
+        value: obj.data[key],
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+    }
     legendData.push(key)
   })
+
+  let dataTmp = {
+    label: {
+      show: false,
+      position: 'inner',
+      formatter: (obj) => {
+        return obj.name
+      }
+    },
+    tooltip: {
+      position: 'bottom',
+      left: 'bottom',
+      formatter: '{b}'
+    },
+    type: 'pie',
+    radius: ['20%', '40%'],
+    center: ['50%', '55%'],
+    data: [],
+    itemStyle: {
+      emphasis: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.5)'
+      },
+    }
+  }
 
   let option = {
     title: {
@@ -35,8 +76,8 @@ export default function formatPieEchartsData(obj) {
       data: legendData,
     },
     tooltip: {
-      position: 'right',
-      left: 'right',
+      position: 'bottom',
+      left: 'bottom',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
     series: [
@@ -61,6 +102,12 @@ export default function formatPieEchartsData(obj) {
         }
       }
     ]
+  }
+
+  if (seriesDataOne.length !== 0) {
+    option.series[0].radius = ['50%', '70%']
+    let seriesData = Object.assign({}, dataTmp, { data: seriesDataOne })
+    option.series.push(seriesData)
   }
   return option
 }

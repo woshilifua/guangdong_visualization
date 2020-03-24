@@ -49,7 +49,11 @@ export default {
     let data = {}
     provinceSubdivisionData.forEach(item => {
       if (item[0] === key) {
-        data[this.setStructureKey(item[1])] = item[3]
+        if (item[2]) {
+          data[this.setStructureKey(item[1])] = [`${key}数量: ${item[2]}`, item[3]]
+        } else {
+          data[this.setStructureKey(item[1])] = item[3]
+        }
       }
     })
     if (Object.keys(data).length === 0) return null
@@ -70,7 +74,7 @@ export default {
       }
     })
     let title = this.setTitle(count)
-    return Promise.resolve({ title, data})
+    return Promise.resolve({ title, data })
   },
 
   getCityData: function () {
