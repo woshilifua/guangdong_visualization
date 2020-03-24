@@ -137,15 +137,14 @@ export default {
   font-size: 13px;
   background-color: #4f8df7;
   color: #fff;
-  padding: 8px;
+  padding: 12px;
   border-radius: 2px;
   border: 1px solid #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.item .item-count {
-}
+
 .item .item-name {
   font-weight: 500;
 }
