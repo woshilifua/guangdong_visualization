@@ -50,7 +50,7 @@ export default {
     provinceSubdivisionData.forEach(item => {
       if (item[0] === key) {
         if (item[2]) {
-          data[this.setStructureKey(item[1])] = [`${key}数量: ${item[2]}`, item[3]]
+          data[this.setStructureKey(item[1])] = [`${item[1]}数量: ${item[2]}`, item[3]]
         } else {
           data[this.setStructureKey(item[1])] = item[3]
         }
