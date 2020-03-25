@@ -1,4 +1,5 @@
 import { tranNumber } from '@/utils/format'
+import _ from 'lodash'
 
 const echartsThemeColors = [
   '#8776e6',
@@ -11,59 +12,7 @@ const echartsThemeColors = [
 ]
 
 export default function formatPieEchartsData(obj) {
-
-  let seriesData = []
-  let seriesDataOne = []
-  let legendData = []
-  Object.keys(obj.data).forEach((key, index) => {
-    if (typeof obj.data[key] === 'object') {
-      seriesData.push({
-        name: key,
-        value: obj.data[key][1],
-        itemStyle: { color: echartsThemeColors[index] }
-      })
-      seriesDataOne.push({
-        name: obj.data[key][0],
-        value: obj.data[key][1],
-        itemStyle: { color: echartsThemeColors[index] }
-      })
-    } else {
-      seriesDataOne = []
-      seriesData.push({
-        name: key,
-        value: obj.data[key],
-        itemStyle: { color: echartsThemeColors[index] }
-      })
-    }
-    legendData.push(key)
-  })
-
-  let dataTmp = {
-    label: {
-      show: false,
-      position: 'inner',
-      formatter: (obj) => {
-        return obj.name
-      }
-    },
-    tooltip: {
-      position: 'bottom',
-      left: 'bottom',
-      formatter: '{b}'
-    },
-    type: 'pie',
-    radius: ['20%', '40%'],
-    center: ['50%', '55%'],
-    data: [],
-    itemStyle: {
-      emphasis: {
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowColor: 'rgba(0, 0, 0, 0.5)'
-      },
-    }
-  }
-
+  let legends = []
   let option = {
     title: {
       left: 'center'
@@ -73,41 +22,111 @@ export default function formatPieEchartsData(obj) {
       left: 'left',
       top: 'middle',
       show: true,
-      data: legendData,
+      data: []
     },
     tooltip: {
-      position: 'bottom',
+      position: 'inside',
       left: 'bottom',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
-    series: [
-      {
-        label: {
-          show: true,
-          formatter: (obj) => {
-            return tranNumber(obj.value)
-          }
-        },
-        name: '分布情况',
-        type: 'pie',
-        radius: ['30%', '76%'],
-        center: ['50%', '55%'],
-        data: seriesData,
-        itemStyle: {
-          emphasis: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          },
-        }
-      }
-    ]
+    itemStyle: {
+      emphasis: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.5)'
+      },
+    },
+    series: setSeriesData(obj, legends)
   }
-
-  if (seriesDataOne.length !== 0) {
-    option.series[0].radius = ['50%', '70%']
-    let seriesData = Object.assign({}, dataTmp, { data: seriesDataOne })
-    option.series.push(seriesData)
-  }
+  option.legend.data = legends
   return option
+}
+
+const DATATMP = {
+  label: {
+    show: true,
+    formatter: (obj) => {
+      return tranNumber(obj.value)
+    }
+  },
+  name: '分布情况',
+  type: 'pie',
+  center: ['50%', '55%'],
+  data: null,
+}
+
+const setSeriesData = (obj, legends) => {
+  let result = []
+  if (obj.data.type === 'single') {
+    let dataOne = []
+    let items = obj.data.items
+    Object.keys(items).forEach((key, index) => {
+      dataOne.push({
+        name: key,
+        value: items[key].value,
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+      legends.push({ name: key })
+    })
+    let dataTmp = _.cloneDeep(DATATMP)
+    result.push(Object.assign(dataTmp, {
+      data: dataOne,
+      radius: ['0', '76%'],
+    }))
+  } else if (obj.data.type === 'nest') {
+    let dataOne = []
+    let dataTwo = []
+    let items = obj.data.items
+    Object.keys(items).forEach((key, index) => {
+      dataOne.push({
+        name: key,
+        value: items[key].value,
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+      legends.push({ name: key })
+      // 如果有 building 的数据
+      if (items[key].building.name) {
+        dataTwo.push({
+          name: items[key].building.name,
+          value: items[key].value,
+          itemStyle: { color: echartsThemeColors[index] }
+        })
+      }
+    })
+    let dataTmp = _.cloneDeep(DATATMP)
+    result.push(Object.assign(dataTmp, {
+      data: dataOne,
+      radius: ['48%', '76%'],
+    }))
+    let dataTmpTwo = _.cloneDeep(DATATMP)
+    result.push(Object.assign(dataTmpTwo, {
+      data: dataTwo,
+      radius: ['0%', '40%'],
+      label: {
+        show: false,
+      },
+      tooltip: {
+        position: 'inside',
+        left: 'bottom',
+        formatter: '{b}'
+      }
+    }))
+  } else {
+    let dataOne = []
+    let items = obj.data
+    Object.keys(items).forEach((key, index) => {
+      dataOne.push({
+        name: key,
+        value: items[key],
+        itemStyle: { color: echartsThemeColors[index] }
+      })
+      legends.push({ name: key })
+    })
+    let dataTmp = _.cloneDeep(DATATMP)
+    result.push(Object.assign(dataTmp, {
+      data: dataOne,
+      radius: ['0', '76%']
+    }))
+  }
+  return result
 }
