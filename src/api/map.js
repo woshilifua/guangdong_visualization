@@ -1,4 +1,4 @@
-import districts from '@/data/resource/districts'
+import districts from '@/data/districts'
 
 export function getDistrict() {
   return Promise.resolve(districts)

@@ -676,14 +676,6 @@ export default {
           ]
         },
         {
-          citycode: '0767',
-          adcode: '442100',
-          name: '东沙群岛',
-          center: '116.887312,20.617512',
-          level: 'city',
-          districts: []
-        },
-        {
           citycode: '0668',
           adcode: '440900',
           name: '茂名市',

@@ -60,7 +60,7 @@ export const constantRoutes = [
       {
         path: '/resources/overview',
         name: 'Overview',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/resource/overview'),
         meta: {
           title: '企业分布', icon: 'table'
         }
